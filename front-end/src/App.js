@@ -79,9 +79,9 @@ class App extends Component {
             <div className="header--inner">
               <h1>Title: TBC</h1>
               <nav>
-                <a href="#">Saved</a>
-                <a href="#">Sort By</a>
-                <a href="#">Login</a>
+                <a href="#"><i className="fa fa-refresh" aria-hidden="true"></i></a>
+                <a href="#"><i className="fa fa-filter" aria-hidden="true"></i></a>
+                <a href="#" id="header__login">Login</a>
               </nav>
             </div>
           </div> 

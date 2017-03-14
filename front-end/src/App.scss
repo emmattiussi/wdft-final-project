@@ -39,7 +39,18 @@ $header-height-shrunk: 50px;
 }
 
 .header h1, .header nav a {
-    line-height: $header-height
+    line-height: $header-height;
+}
+
+.header nav a {
+    text-decoration: none;
+}
+
+#header__login {
+    border: 1px solid grey;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-transform: uppercase;
 }
 
 .header h1 {

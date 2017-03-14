@@ -10,7 +10,7 @@ class Card extends Component {
     render(){
         let cardArray = this.props.articles.data.map((element, index) => {
             return (
-                <div key={index} className="clearfix col-lg-3 col-md-3 col-sm-4">
+                <div key={index} className="clearfix col-lg-3 col-md-3 col-sm-6">
                     <figure className='card'>
                         <img className="card__img" src={element.image} alt={element.alt}/>
                         <figcaption>
