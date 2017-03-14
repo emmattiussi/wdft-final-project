@@ -31,6 +31,8 @@ feed('http://www.cbc.ca/cmlink/rss-cbcaboriginal', (err, articles) => {
         element["alt"] = alt;
         let content = $('p').text();
         element["content"] = content; 
+        let logo = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/CBC_Logo_1992-Present.svg/500px-CBC_Logo_1992-Present.svg.png";
+        element["logo"] = logo;
         return element; 
     }) 
 })

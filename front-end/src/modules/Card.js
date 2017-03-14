@@ -3,26 +3,30 @@ import Masonry from 'react-masonry-component';
 
 
 let masonryOptions = {
-    transitionDuration: 500
+    transitionDuration: 0
 }
 
 class Card extends Component {
     render(){
         let cardArray = this.props.articles.data.map((element, index) => {
             return (
-                <div className="col-lg-3 col-md-3 col-sm-4">
-                    <figure key={index} className='card'>
+                <div key={index} className="clearfix col-lg-3 col-md-3 col-sm-4">
+                    <figure className='card'>
                         <img className="card__img" src={element.image} alt={element.alt}/>
                         <figcaption>
-                            <h3>{element.title}</h3>
-                            <p>{element.content}</p>
+                            <h3 className="card__h3">{element.title}</h3>
+                            <p className="card__p">{element.content}</p>
                         </figcaption>
+                        <div className="card__logo">
+                            <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
+                        </div>
                     </figure>
                 </div>
             )
         })
         return(
             <Masonry 
+                className="cardRoot"
                 options={masonryOptions} // default {} 
                 disableImagesLoaded={false} // default false 
                 updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false 

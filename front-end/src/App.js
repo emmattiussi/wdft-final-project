@@ -15,6 +15,7 @@ class App extends Component {
         data: ['Nothing yet!']
       }
     }
+    this.scrollFunction = this.scrollFunction.bind(this);
   }
   
   componentWillMount(){
@@ -29,11 +30,64 @@ class App extends Component {
     })
   }
 
+  /*
+  Scroll Function
+    Adapted from CoDrops - https://tympanus.net/codrops/2013/06/06/on-scroll-animated-header/
+    Licensed under the MIT license, http://www.opensource.org/licenses/mit-license.php
+    Copyright 2013, Codrops, http://www.codrops.com
+  */
+
+  scrollFunction() {
+    const rootElement = document.documentElement;
+    let header = document.querySelector('.header'),
+        didScroll = false,
+        changeHeaderOn = 250;
+
+    function init(){
+      window.addEventListener('scroll', (event) => {
+        if(!didScroll) {
+          didScroll=true;
+          setTimeout(scrollPage, 250);
+        }
+      })
+    }
+    
+    function scrollPage(){
+      function scrollY(){
+        return window.pageYOffset || rootElement.scrollTop;
+      }
+      let sy = scrollY();
+      if (sy >= changeHeaderOn){
+        header.className = "header header--shrink";
+      } else {
+        header.className = "header";
+      }
+      didScroll = false;
+    }
+
+    init(); 
+  };
+
+  componentDidMount(){
+    this.scrollFunction();
+  }
+
   render() {
     return (
         <div className="appRoot">
+          <div className="header">
+            <div className="header--inner">
+              <h1>Title: TBC</h1>
+              <nav>
+                <a href="#">Saved</a>
+                <a href="#">Sort By</a>
+                <a href="#">Login</a>
+              </nav>
+            </div>
+          </div> 
           <Card articles={this.state.feed}/>
-        </div>
+      </div> 
+
     );
   }
   }
