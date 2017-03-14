@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// CSS
+import './App.css'
+
 // Modules
 import Card from './modules/Card';
 
