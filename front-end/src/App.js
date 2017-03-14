@@ -13,7 +13,9 @@ class App extends Component {
     this.state = {
       feed: {
         data: ['Nothing yet!']
-      }
+      },
+      showModal: false,
+      modalViewing: 0
     }
 
     this.scrollFunction = this.scrollFunction.bind(this);
@@ -26,7 +28,8 @@ class App extends Component {
     .then((response) => {
       this.setState({
         feed: response,
-        showModal: false
+        showModal: false,
+        modalViewing: 0
       })
     }) 
     .catch((err) => {
@@ -84,9 +87,10 @@ class App extends Component {
     })
   }
 
-  openModal(){
+  openModal(key){
     this.setState({
-      showModal: true
+      showModal: true,
+      modalViewing: key 
     })
     return false;
   }
@@ -108,7 +112,8 @@ class App extends Component {
             articles={this.state.feed} 
             openModal={this.openModal}
             closeModal={this.closeModal} 
-            showModal={this.state.showModal}  
+            showModal={this.state.showModal} 
+            modalViewing={this.state.modalViewing} 
           />
       </div> 
 

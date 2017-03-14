@@ -51,6 +51,12 @@ $header-height-shrunk: 50px;
     padding: 10px 25px;
     border-radius: 50px;
     text-transform: uppercase;
+    -webkit-transition: background-color 0.5s;
+    transition: background-color 0.5s;
+}
+
+#header__login:hover{
+    background-color: darkkhaki;
 }
 
 .header h1 {
@@ -133,6 +139,7 @@ $header-height-shrunk: 50px;
 
 .card__h3{
     font-weight: 900;
+    text-align: center;
 }
 
 .card__img {
@@ -148,4 +155,63 @@ $header-height-shrunk: 50px;
 .card__logo--img {
     height: 10%;
     width:10%;
+}
+
+/* . Modal Styles . */
+
+.modal-body {
+    overflow:auto;
+    padding-bottom: 0;
+}
+
+.modal__logo{
+    float: left;
+    width: 10%;
+    margin-left: 13px;
+}
+
+.modal__logo--img{
+    width: 100%;
+}
+
+.modal__save {
+    position: absolute;
+    font-size: 3em;
+    top: 22%;
+    left: 7%;
+    color: silver;
+}
+
+.modal__link {
+    @extend .modal__save;
+    left: 6.5%;
+    top: 39%;
+}
+
+.modal__content {
+    float: right;
+    width: 80%;
+    margin-right: 18px;
+}
+
+.modal__content h4 {
+    margin-top: 0;
+}
+
+.modal__content img {
+    width: 100%;
+}
+
+.modal__footer {
+    clear: both;
+    border: none;
+}
+
+.modal__footer button {
+    background: transparent;
+    border: none;
+    font-size: 2em;
+    margin-right: 18px;
+    padding-right: 0;
+    color: silver;
 }
