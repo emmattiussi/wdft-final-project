@@ -15,14 +15,18 @@ class App extends Component {
         data: ['Nothing yet!']
       }
     }
+
     this.scrollFunction = this.scrollFunction.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.openModal = this.openModal.bind(this);
   }
   
   componentWillMount(){
     axios.get('http://localhost:8080/getarticles')
     .then((response) => {
       this.setState({
-        feed: response
+        feed: response,
+        showModal: false
       })
     }) 
     .catch((err) => {
@@ -72,6 +76,21 @@ class App extends Component {
     this.scrollFunction();
   }
 
+  // Toggle Modal
+
+  closeModal(){
+    this.setState({
+      showModal: false
+    })
+  }
+
+  openModal(){
+    this.setState({
+      showModal: true
+    })
+    return false;
+  }
+
   render() {
     return (
         <div className="appRoot">
@@ -85,7 +104,12 @@ class App extends Component {
               </nav>
             </div>
           </div> 
-          <Card articles={this.state.feed}/>
+          <Card 
+            articles={this.state.feed} 
+            openModal={this.openModal}
+            closeModal={this.closeModal} 
+            showModal={this.state.showModal}  
+          />
       </div> 
 
     );

@@ -104,14 +104,9 @@ $header-height-shrunk: 50px;
     margin-top: $header-height + 20px;
 }
 
-// /* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
-// .clearfix:before, .clearfix:after{ 
-//     content: " "; 
-//     display: table; 
-// }
-// .clearfix:after{ 
-//     clear: both;
-// }
+.card__div a {
+    text-decoration: none;
+}
 
 .card{
     display: block; 
@@ -119,6 +114,21 @@ $header-height-shrunk: 50px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
     font-family: $font-family;
+    cursor: pointer;
+    -webkit-transition: background-color 0.5s;
+    transition: background-color 0.5s; 
+    color: #333;
+}
+
+.card:hover{
+    background-color: mediumaquamarine;
+}
+
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
 }
 
 .card__h3{
