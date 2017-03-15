@@ -107,12 +107,18 @@ $header-height-shrunk: 50px;
 /* . Card Styles . */
 
 .cardRoot {
-    margin-top: $header-height + 20px;
+    margin-top: $header-height+20px;
+    // width: 100%;
+//     // display: flex;
+//     // flex-wrap: wrap;
+//     // justify-content: center;
+    
 }
 
-.card__div a {
-    text-decoration: none;
-}
+// .card__div {
+//     // flex-grow: 1;
+//     // align-self: center;
+// }
 
 .card{
     display: block; 
@@ -124,22 +130,17 @@ $header-height-shrunk: 50px;
     -webkit-transition: background-color 0.5s;
     transition: background-color 0.5s; 
     color: #333;
+    // min-height: 400px
 }
 
 .card:hover{
     background-color: mediumaquamarine;
 }
 
-.modal-container {
-  position: relative;
-}
-.modal-container .modal, .modal-container .modal-backdrop {
-  position: absolute;
-}
-
 .card__h3{
     font-weight: 900;
     text-align: center;
+    // min-height: 80px;
 }
 
 .card__img {
@@ -157,61 +158,258 @@ $header-height-shrunk: 50px;
     width:10%;
 }
 
-/* . Modal Styles . */
+/* . PopOut Styles . */
 
-.modal-body {
-    overflow:auto;
-    padding-bottom: 0;
+// Slideshow styles adapted from Codrops - https://tympanus.net/Blueprints/GridGallery/
+
+.slideshow {
+	position: fixed;
+	background: rgba(0,0,0,0.6);
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 500;
+	opacity: 0;
+	visibility: hidden;
+	overflow: hidden;
+	-webkit-perspective: 1000px;
+	perspective: 1000px;
+	-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+	transition: opacity 0.5s, visibility 0s 0.5s;
 }
 
-.modal__logo{
-    float: left;
-    width: 10%;
-    margin-left: 13px;
+.slideshow-open{
+	opacity: 1;
+	visibility: visible;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
 }
 
-.modal__logo--img{
-    width: 100%;
+.slideshow .cardRoot--visible{
+	width: 100%;
+	height: 100%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform: translate3d(0,0,150px);
+	transform: translate3d(0,0,150px);
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
 }
 
-.modal__save {
-    position: absolute;
-    font-size: 3em;
-    top: 22%;
-    left: 7%;
-    color: silver;
+.slideshow .cardRoot--visible.animatable .card__div {
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
 }
 
-.modal__link {
-    @extend .modal__save;
-    left: 6.5%;
-    top: 39%;
+.slideshow-open .slideshow .cardRoot--visible {
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
 }
 
-.modal__content {
-    float: right;
-    width: 80%;
-    margin-right: 18px;
+.slideshow .card__div {
+	width: 660px;
+	height: 560px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -280px 0 0 -330px;
 }
 
-.modal__content h4 {
-    margin-top: 0;
+// .slideshow .cardRoot--visible.show {
+// 	visibility: visible;
+// }
+
+.slideshow .card__div:after {
+	content: '';
+	position: absolute;
+	width: 80%;
+	height: 80%;
+	top: 0;
+	left: 50%;
+	// background: rgba(255,255,255,0.8);
+	// -webkit-transition: opacity 0.3s;
+	// transition: opacity 0.3s;
 }
 
-.modal__content img {
-    width: 100%;
+.slideshow .card__div.current:after {
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: opacity 0.3s, visibility 0s 0.3s;
+	transition: opacity 0.3s, visibility 0s 0.3s;
 }
 
-.modal__footer {
-    clear: both;
-    border: none;
+.slideshow figure {
+	width: 75%;
+	height: 75%;
+	background: #fff;
+	border: 50px solid #fff;
+	overflow: hidden;
 }
 
-.modal__footer button {
-    background: transparent;
-    border: none;
-    font-size: 2em;
-    margin-right: 18px;
-    padding-right: 0;
-    color: silver;
+.slideshow figcaption {
+	padding-bottom: 20px;
 }
+
+// .slideshow figcaption h3 {
+// 	font-weight: 300;
+// 	font-size: 200%;
+// }
+
+.slideshow nav span {
+	position: fixed;
+	z-index: 1000;
+	color: #59656c;
+	text-align: center;
+	padding: 3%;
+	cursor: pointer;
+	font-size: 2.2em;
+}
+
+.slideshow nav span.nav-prev,
+.slideshow nav span.nav-next {
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.slideshow nav span.nav-next {
+	right: 0;
+}
+
+.slideshow nav span.nav-close {
+	top: 0;
+	right: 0;
+	padding: 0.5em 1em;
+	color: #31373a;
+}
+
+.icon:before,
+.icon:after {
+	font-family: 'fontawesome';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+// span.nav-prev:before {
+// 	content: "\e601";
+// }
+
+// span.nav-next:before  {
+// 	content: "\e600";
+// }
+
+// span.nav-close:before {
+// 	content: "\e602";
+// }
+
+/* Info on arrow key navigation */
+.info-keys {
+	position: fixed;
+	top: 10px;
+	left: 10px;
+	width: 60px;
+	font-size: 8px;
+	padding-top: 20px;
+	text-transform: uppercase;
+	color: #fff;
+	letter-spacing: 1px;
+	text-align: center;
+}
+
+.info-keys:before,
+.info-keys:after {
+	position: absolute;
+	top: 0;
+	width: 16px;
+	height: 16px;
+	border: 1px solid #fff;
+	text-align: center;
+	line-height: 14px;
+	font-size: 12px;
+}
+
+.info-keys:before {
+	left: 10px;
+	// content: "\e603";
+}
+
+.info-keys:after {
+	right: 10px;
+	// content: "\e604";
+}
+
+// .popOutRoot {
+//     background-color: black;
+//     color: white;
+//     font-size: 3em;
+//     width: 100vw; 
+//     height: 100px;
+//     position: absolute;
+//     bottom: 0;
+//     left: 0;
+//     z-index: 10000;
+// }
+
+// .modal-body {
+//     overflow:auto;
+//     padding-bottom: 0;
+// }
+
+// .modal__logo{
+//     float: left;
+//     width: 10%;
+//     margin-left: 13px;
+// }
+
+// .modal__logo--img{
+//     width: 100%;
+// }
+
+// .modal__save {
+//     position: absolute;
+//     font-size: 3em;
+//     top: 22%;
+//     left: 7%;
+//     color: silver;
+// }
+
+// .modal__link {
+//     @extend .modal__save;
+//     left: 6.5%;
+//     top: 39%;
+// }
+
+// .modal__content {
+//     float: right;
+//     width: 80%;
+//     margin-right: 18px;
+// }
+
+// .modal__content h4 {
+//     margin-top: 0;
+// }
+
+// .modal__content img {
+//     width: 100%;
+// }
+
+// .modal__footer {
+//     clear: both;
+//     border: none;
+// }
+
+// .modal__footer button {
+//     background: transparent;
+//     border: none;
+//     font-size: 2em;
+//     margin-right: 18px;
+//     padding-right: 0;
+//     color: silver;
+// }

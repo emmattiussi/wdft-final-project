@@ -14,13 +14,16 @@ class App extends Component {
       feed: {
         data: ['Nothing yet!']
       },
-      showModal: false,
-      modalViewing: 0
+      showPopOut: false,
+      articleViewing: 0
     }
 
     this.scrollFunction = this.scrollFunction.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.openModal = this.openModal.bind(this);
+    // this.closePopOut = this.closePopOut.bind(this);
+    this.openPopOut = this.openPopOut.bind(this);
+    this.slideShowClassToggles = this.slideShowClassToggles.bind(this);
+    this.prevArticle = this.prevArticle.bind(this);
+    this.nextArticle = this.nextArticle.bind(this);
   }
   
   componentWillMount(){
@@ -28,8 +31,8 @@ class App extends Component {
     .then((response) => {
       this.setState({
         feed: response,
-        showModal: false,
-        modalViewing: 0
+        showPopOut: false,
+        articleViewing: 0
       })
     }) 
     .catch((err) => {
@@ -79,20 +82,62 @@ class App extends Component {
     this.scrollFunction();
   }
 
-  // Toggle Modal
+  // Toggle Pop Out
 
-  closeModal(){
-    this.setState({
-      showModal: false
-    })
+  // closePopOut(){
+  //   this.setState({
+  //     showPopOut: false
+  //   })
+  // }
+
+  slideShowClassToggles(){
+    let slideshow = document.getElementsByClassName('slideshow')[0]; 
+    let card = document.getElementsByClassName('cardRoot--visible')[0].firstChild; 
+    // Toggle Slideshow.
+    if (slideshow.classList.contains('slideshow-open')){
+        slideshow.classList.remove('slideshow-open')
+    } else {
+      slideshow.classList.add('slideshow-open')
+    }
+    // Toggle cards.
+    if (card.classList.contains('show')){
+      card.classList.remove('show');
+    } else {
+      card.classList.add('show');
+    }
+
+  } 
+
+  openPopOut(key){
+    let popOutState = this.state.showPopOut;
+    if (popOutState){
+      this.setState({
+        showPopOut: false,
+        articleViewing: key
+      })
+      this.slideShowClassToggles();
+    } else {
+      this.setState({
+        showPopOut: true,
+        articleViewing:key
+      })
+      this.slideShowClassToggles();
+    }
+    // console.log(document.getElementsByClassName('cardRoot--visible')[0].children[this.state.articleViewing])
   }
 
-  openModal(key){
+  prevArticle(){
     this.setState({
-      showModal: true,
-      modalViewing: key 
+      articleViewing: this.state.articleViewing - 1
     })
-    return false;
+    console.log(this.state.articleViewing)
+  }
+
+  nextArticle(){
+    this.setState({
+      articleViewing: this.state.articleViewing + 1
+    })
+    console.log(this.state.articleViewing)
   }
 
   render() {
@@ -110,10 +155,11 @@ class App extends Component {
           </div> 
           <Card 
             articles={this.state.feed} 
-            openModal={this.openModal}
-            closeModal={this.closeModal} 
-            showModal={this.state.showModal} 
-            modalViewing={this.state.modalViewing} 
+            openPopOut={this.openPopOut}
+            prevArticle={this.prevArticle}
+            nextArticle={this.nextArticle}
+            showPopOut={this.state.showPopOut} 
+            articleViewing={this.state.articleViewing} 
           />
       </div> 
 
