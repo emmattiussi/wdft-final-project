@@ -83,34 +83,41 @@
   margin-top: 170px; }
 
 .card {
-  display: block;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: left;
   padding: 5px;
   border: 1px solid #ddd;
+  border-radius: 5px;
   margin-bottom: 20px;
   font-family: "Lato", sans-serif;
   cursor: pointer;
   -webkit-transition: background-color 0.5s;
   transition: background-color 0.5s;
-  color: #333; }
+  color: #333;
+  min-height: 10%; }
 
 .card:hover {
   background-color: mediumaquamarine; }
 
+.card figcaption {
+  align-self: center; }
+
 .card__h3 {
   font-weight: 900;
-  text-align: center; }
+  height: 100%;
+  margin: 0; }
 
 .card__img {
   width: 100%; }
 
 .card__logo {
-  width: 100%;
+  max-width: 25%;
   text-align: center;
-  margin-bottom: 5px; }
+  align-self: center; }
 
 .card__logo--img {
-  height: 10%;
-  width: 10%; }
+  width: 30%; }
 
 /* . PopOut Styles . */
 .slideshow {
@@ -136,59 +143,84 @@
   transition: opacity 0.5s; }
 
 .slideshow .cardRoot--visible {
-  width: 100%;
-  height: 100%;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  -webkit-transform: translate3d(0, 0, 150px);
-  transform: translate3d(0, 0, 150px);
-  -webkit-transition: -webkit-transform 0.5s;
-  transition: transform 0.5s; }
-
-.slideshow .cardRoot--visible.animatable .card__div {
-  -webkit-transition: -webkit-transform 0.5s;
-  transition: transform 0.5s; }
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%; }
 
 .slideshow-open .slideshow .cardRoot--visible {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
 .slideshow .card__div {
-  width: 660px;
-  height: 560px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -280px 0 0 -330px; }
-
-.slideshow .card__div:after {
-  content: '';
-  position: absolute;
-  width: 80%;
-  height: 80%;
+  max-height: 80%;
+  max-width: 50%;
+  margin: auto;
   top: 0;
-  left: 50%; }
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex; }
 
-.slideshow .card__div.current:after {
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: opacity 0.3s, visibility 0s 0.3s;
-  transition: opacity 0.3s, visibility 0s 0.3s; }
-
-.slideshow figure {
-  width: 75%;
-  height: 75%;
+.slideshow .card {
+  max-height: 100%;
   background: #fff;
-  border: 50px solid #fff;
-  overflow: hidden; }
+  padding: 15px;
+  border-radius: 5px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-self: center; }
 
 .slideshow figcaption {
-  padding-bottom: 20px; }
+  width: 100%; }
+
+.slideshow .card__div--img {
+  width: 100%;
+  align-self: center; }
+
+.slideshow .card__img {
+  width: 90%;
+  margin: 10px auto;
+  display: block; }
+
+.slideshow .card__icon {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  padding-bottom: 5px; }
+
+.slideshow .card__icon div {
+  flex-grow: 1;
+  align-self: center;
+  width: 30%;
+  text-align: center; }
+
+.slideshow .card__icon--img {
+  width: 25%; }
+
+.slideshow .card__icon--link, .slideshow .card__icon--save {
+  font-size: 2em;
+  color: darkgrey; }
+
+.slideshow .card__p {
+  clear: both;
+  margin-top: 10px; }
+
+.slideshow .card__h3 {
+  font-weight: 900;
+  font-size: 1.45em; }
+
+.slideshow .card__p {
+  font-size: 1em;
+  text-align: justify; }
 
 .slideshow nav span {
   position: fixed;
   z-index: 1000;
-  color: #59656c;
+  color: #fff;
   text-align: center;
   padding: 3%;
   cursor: pointer;
@@ -207,7 +239,7 @@
   top: 0;
   right: 0;
   padding: 0.5em 1em;
-  color: #31373a; }
+  color: #fff; }
 
 .icon:before,
 .icon:after {
@@ -222,7 +254,7 @@
   -moz-osx-font-smoothing: grayscale; }
 
 /* Info on arrow key navigation */
-.info-keys {
+.info-keys, .info-esc {
   position: fixed;
   top: 10px;
   left: 10px;
@@ -234,8 +266,9 @@
   letter-spacing: 1px;
   text-align: center; }
 
-.info-keys:before,
-.info-keys:after {
+.info-keys:before, .info-esc:before,
+.info-keys:after,
+.info-esc:after {
   position: absolute;
   top: 0;
   width: 16px;
@@ -245,8 +278,12 @@
   line-height: 14px;
   font-size: 12px; }
 
-.info-keys:before {
+.info-keys:before, .info-esc:before {
   left: 10px; }
 
-.info-keys:after {
+.info-keys:after, .info-esc:after {
   right: 10px; }
+
+.info-esc {
+  left: 75px;
+  top: 20px; }

@@ -11,28 +11,45 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      feed: {
-        data: ['Nothing yet!']
-      },
+      feed: ['Nothing yet!'],
       showPopOut: false,
-      articleViewing: 0
+      articleViewing: 0,
+      filterOn: false
     }
 
+    this.shuffleArray = this.shuffleArray.bind(this);
     this.scrollFunction = this.scrollFunction.bind(this);
-    // this.closePopOut = this.closePopOut.bind(this);
+    this.closePopOut = this.closePopOut.bind(this);
     this.openPopOut = this.openPopOut.bind(this);
     this.slideShowClassToggles = this.slideShowClassToggles.bind(this);
     this.prevArticle = this.prevArticle.bind(this);
     this.nextArticle = this.nextArticle.bind(this);
   }
   
+  // Get RSS Feed from Server
+
+  // From https://bost.ocks.org/mike/shuffle/
+  shuffleArray(array) {
+    var l = array.length, t, i;
+    // While there remain elements to shuffle…
+    while (l) {
+    // Pick a remaining element…
+      i = Math.floor(Math.random() * l--);
+      // And swap it with the current element.
+      t = array[l];
+      array[l] = array[i];
+      array[i] = t;
+    }
+    return array;
+  }
+  
+
   componentWillMount(){
     axios.get('http://localhost:8080/getarticles')
     .then((response) => {
+      let data = this.shuffleArray(response.data)
       this.setState({
-        feed: response,
-        showPopOut: false,
-        articleViewing: 0
+        feed: data
       })
     }) 
     .catch((err) => {
@@ -82,13 +99,19 @@ class App extends Component {
     this.scrollFunction();
   }
 
-  // Toggle Pop Out
+  /*
+  Toggle Slideshow    
+    Inspired by: Codrops - https://tympanus.net/Blueprints/GridGallery/
+    Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
+    Copyright 2014, Codrops - http://www.codrops.com
+  */
 
-  // closePopOut(){
-  //   this.setState({
-  //     showPopOut: false
-  //   })
-  // }
+  closePopOut(){
+    this.setState({
+      showPopOut: false
+    })
+    this.slideShowClassToggles();
+  }
 
   slideShowClassToggles(){
     let slideshow = document.getElementsByClassName('slideshow')[0]; 
@@ -123,21 +146,22 @@ class App extends Component {
       })
       this.slideShowClassToggles();
     }
-    // console.log(document.getElementsByClassName('cardRoot--visible')[0].children[this.state.articleViewing])
   }
 
   prevArticle(){
-    this.setState({
-      articleViewing: this.state.articleViewing - 1
-    })
-    console.log(this.state.articleViewing)
+    if (this.state.articleViewing > 0){
+      this.setState({
+        articleViewing: this.state.articleViewing - 1
+      })
+    }
   }
 
   nextArticle(){
-    this.setState({
-      articleViewing: this.state.articleViewing + 1
-    })
-    console.log(this.state.articleViewing)
+    if (this.state.articleViewing < this.state.feed.length -1){
+      this.setState({
+        articleViewing: this.state.articleViewing + 1
+      })
+    }
   }
 
   render() {
@@ -156,6 +180,7 @@ class App extends Component {
           <Card 
             articles={this.state.feed} 
             openPopOut={this.openPopOut}
+            closePopOut={this.closePopOut}
             prevArticle={this.prevArticle}
             nextArticle={this.nextArticle}
             showPopOut={this.state.showPopOut} 
