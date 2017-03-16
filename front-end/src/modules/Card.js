@@ -10,7 +10,7 @@ let masonryOptions = {
 }
 
 class Card extends Component {
-
+// SEPARATE CARD ARRAY
     render(){
         let cardArray = this.props.articles.data.map((element, index) => {
             return (
@@ -65,7 +65,6 @@ class Card extends Component {
                     <div className="info-keys icon">Navigate with arrow keys</div>
                 </div>
             </div>  
-            // 
         )
     }
 }
