@@ -25,6 +25,8 @@ class App extends Component {
     this.slideShowClassToggles = this.slideShowClassToggles.bind(this);
     this.prevArticle = this.prevArticle.bind(this);
     this.nextArticle = this.nextArticle.bind(this);
+    this.refreshFeed = this.refreshFeed.bind(this);
+    this.slideshowNavigation=this.slideshowNavigation.bind(this);
   }
   
   // Get RSS Feed from Server
@@ -55,7 +57,7 @@ class App extends Component {
       let data = this.shuffleArray(response.data)
       let sortedData = data.sort(function(a, b){return new Date(b.published) - new Date(a.published)})
       this.setState({
-        feed: data
+        feed: sortedData
       })
     }) 
     .catch((err) => {
@@ -112,11 +114,33 @@ class App extends Component {
     Copyright 2014, Codrops - http://www.codrops.com
   */
 
+  slideshowNavigation(keyCode){
+        // if (this.props.showPopOut){
+      switch(keyCode) {
+              // Left Arrow Key
+              case 37: 
+                  this.prevArticle()
+                  break;
+              // Right Arrow Key
+              case 39:
+                  this.nextArticle()
+                  break;
+              // Escape Key
+              case 27:
+                  this.closePopOut();
+                  break;
+              default: 
+                  break;
+          }
+  }
+
   closePopOut(){
     this.setState({
       showPopOut: false
     })
     this.slideShowClassToggles();
+    console.log('unmount')
+    document.removeEventListener('keydown',     this.slideshowNavigation)
   }
 
   slideShowClassToggles(){
@@ -138,23 +162,20 @@ class App extends Component {
   } 
 
   openPopOut(key){
-    let popOutState = this.state.showPopOut;
-    if (popOutState){
-      this.setState({
-        showPopOut: false,
-        articleViewing: key
-      })
-      this.slideShowClassToggles();
-    } else {
-      this.setState({
+    this.setState({
         showPopOut: true,
         articleViewing:key
       })
       this.slideShowClassToggles();
-    }
+    // wrap this in a function. 
+    document.addEventListener('keydown', (event) => {
+            let selectedKey = event.keyCode || event.which; 
+            this.slideshowNavigation(selectedKey);
+        })
   }
 
   prevArticle(){
+    console.log('previous article called')
     if (this.state.articleViewing > 0){
       this.setState({
         articleViewing: this.state.articleViewing - 1
@@ -163,11 +184,26 @@ class App extends Component {
   }
 
   nextArticle(){
+    console.log('next article called')
     if (this.state.articleViewing < this.state.feed.length -1){
       this.setState({
         articleViewing: this.state.articleViewing + 1
       })
     }
+  }
+
+  refreshFeed(){
+    axios.get('http://localhost:8080/getarticles')
+    .then((response) => {
+      let data = this.shuffleArray(response.data);
+      let sortedData = data.sort(function(a, b){return new Date(b.published) - new Date(a.published)});
+      this.setState({
+        feed: sortedData
+      })
+    }) 
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   render() {
@@ -177,9 +213,9 @@ class App extends Component {
             <div className="header--inner">
               <h1>Title: TBC</h1>
               <nav>
-                <a href="#"><i className="fa fa-refresh" aria-hidden="true"></i></a>
-                <a href="#"><i className="fa fa-filter" aria-hidden="true"></i></a>
-                <a href="#" id="header__login">Login</a>
+                <i className="header__refresh fa fa-refresh" aria-hidden="true" onClick={this.refreshFeed}></i>
+                <i className="header__filter fa fa-filter" aria-hidden="true"></i>
+                <a id="header__login">Login</a>
               </nav>
             </div>
           </div> 

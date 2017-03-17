@@ -12,105 +12,88 @@ let masonryOptions = {
 class Card extends Component {
     constructor(){
         super();
-        this.slideshowNavigation=this.slideshowNavigation.bind(this);
+        this.cardMap = this.cardMap.bind(this);
+        this.slideshowCardMap = this.slideshowCardMap.bind(this);
+        this.slideshowCardMapNoImage = this.slideshowCardMapNoImage.bind(this);
     }
 
-    // Slideshow styles adapted from Codrops - https://tympanus.net/Blueprints/GridGallery/
-    // See full reference in App.js
-
-    slideshowNavigation(keyCode){
-        if (this.props.showPopOut){
-            switch(keyCode) {
-                    // Left Arrow Key
-                    case 37: 
-                        this.props.prevArticle()
-                        break;
-                    // Right Arrow Key
-                    case 39:
-                        this.props.nextArticle()
-                        break;
-                    // Escape Key
-                    case 27:
-                        this.props.closePopOut();
-                        break;
-                    default: 
-                        break;
-                }
-        }
+    cardMap(element, index){
+        return (
+            <div key={index} className="card__div col-lg-12">
+                <figure className='card' onClick={() => {this.props.openPopOut(index)}}>
+                    <div className="card__logo">
+                        <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
+                    </div>
+                    <figcaption>
+                        <h3 className="card__h3">{element.title}</h3>
+                    </figcaption>
+                </figure>
+            </div>
+        )
     }
 
-    componentDidMount(){
-        document.addEventListener('keydown', (event) => {
-            let selectedKey = event.keyCode || event.which; 
-            this.slideshowNavigation(selectedKey);
-        })
+    slideshowCardMap(element, index){
+        return (<div key={index} className="card__div">
+                <figure className="card">
+                    <div className="card__div--img">
+                        <img className="card__img" src={element.image} alt={element.alt}/>
+                    </div>
+                    <figcaption>
+                        <h3 className="card__h3">{element.title}</h3>
+                        <p className="card__p">{element.content}</p>
+                    </figcaption>
+                    <div className="card__icon">
+                        <div>
+                            <img className="card__icon--img" src={element.logo} alt="Source Logo"/>     
+                        </div>
+                        <div>
+                            <i className="card__icon--save fa fa-bookmark-o" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <i className="card__icon--link fa fa-external-link" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </figure>
+            </div>)
     }
-
-    componentWillUnmount(){
-        document.removeEventListener('keydown', this.slideshowNavigation)
+    
+    slideshowCardMapNoImage(element, index){
+        return (
+            <div key={index} className="card__div">
+                <figure className="card">
+                    <figcaption>
+                        <h3 className="card__h3">{element.title}</h3>
+                        <p className="card__p">{element.content}</p>
+                    </figcaption>
+                    <div className="card__icon">
+                        <div>
+                            <img className="card__icon--img" src={element.logo} alt="Source Logo"/>     
+                        </div>
+                        <div>
+                            <i className="card__icon--save fa fa-bookmark-o" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <i className="card__icon--link fa fa-external-link" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </figure>
+            </div>
+        )
     }
 
     render(){
         let cardArray = this.props.articles.map((element, index) => {
             return (
-                <div key={index} className="card__div col-lg-12">
-                    <figure className='card' onClick={() => {this.props.openPopOut(index)}}>
-                        <div className="card__logo">
-                            <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
-                        </div>
-                        <figcaption>
-                            <h3 className="card__h3">{element.title}</h3>
-                        </figcaption>
-                    </figure>
-                </div>
+                this.cardMap(element, index)
             )
         })
         let slideshowCardArray = this.props.articles.map((element, index) => {
             if (element.image){
             return (
-                <div key={index} className="card__div">
-                    <figure className="card">
-                        <div className="card__div--img">
-                            <img className="card__img" src={element.image} alt={element.alt}/>
-                        </div>
-                        <figcaption>
-                            <h3 className="card__h3">{element.title}</h3>
-                            <p className="card__p">{element.content}</p>
-                        </figcaption>
-                        <div className="card__icon">
-                            <div>
-                                <img className="card__icon--img" src={element.logo} alt="Source Logo"/>     
-                            </div>
-                            <div>
-                                <i className="card__icon--save fa fa-bookmark-o" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <i className="card__icon--link fa fa-external-link" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </figure>
-                </div>
+                this.slideshowCardMap(element, index)
             )} else {
                 return (
-                    <div key={index} className="card__div">
-                    <figure className="card">
-                        <figcaption>
-                            <h3 className="card__h3">{element.title}</h3>
-                            <p className="card__p">{element.content}</p>
-                        </figcaption>
-                        <div className="card__icon">
-                            <div>
-                                <img className="card__icon--img" src={element.logo} alt="Source Logo"/>     
-                            </div>
-                            <div>
-                                <i className="card__icon--save fa fa-bookmark-o" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <i className="card__icon--link fa fa-external-link" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </figure>
-                </div>
+                this.slideshowCardMapNoImage(element, index)
                 )
             }
         })   
