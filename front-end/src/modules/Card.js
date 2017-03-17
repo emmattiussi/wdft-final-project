@@ -55,7 +55,6 @@ class Card extends Component {
             return (
                 <div key={index} className="card__div col-lg-12">
                     <figure className='card' onClick={() => {this.props.openPopOut(index)}}>
-                        {/*<img className="card__img" src={element.image} alt={element.alt}/>*/}
                         <div className="card__logo">
                             <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
                         </div>
@@ -63,11 +62,6 @@ class Card extends Component {
                             <h3 className="card__h3">{element.title}</h3>
                         </figcaption>
                     </figure>
-                    {/*<PopOut 
-                        showPopOut={this.props.showPopOut}
-                        currentKey={this.props.articleViewing}
-                        popOutKey={index}
-                    />*/}
                 </div>
             )
         })

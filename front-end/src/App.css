@@ -146,7 +146,13 @@
   position: relative;
   top: 0;
   left: 0;
-  height: 100%; }
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform: translate3d(0, 0, 150px);
+  transform: translate3d(0, 0, 150px);
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s; }
 
 .slideshow-open .slideshow .cardRoot--visible {
   -webkit-transform: translate3d(0, 0, 0);

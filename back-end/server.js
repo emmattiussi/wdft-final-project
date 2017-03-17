@@ -39,7 +39,11 @@ let articleClean = function(element){
         element['logo'] = 'http://www.canadalandshow.com/wp-content/uploads/2016/04/cl-logo-49d2eedb1c41d9348d97c04b515dc0d05de06271c424ea11c6bec43f2bd24a48.png'
     } else if (element.feed.name.match(/rolling/gi)){
         element['logo'] = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Rolling_Stone_logo.svg/3000px-Rolling_Stone_logo.svg.png'
-    } // else if (element.feed.name.match(/jazeera/gi)){
+    } else if (element.feed.name.match(/BBC/ig)){
+        element["logo"] ="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/BBC_News.svg/640px-BBC_News.svg.png"
+    }
+    
+    // else if (element.feed.name.match(/jazeera/gi)){
     //     element['logo'] = 
     //     'https://upload.wikimedia.org/wikipedia/commons/b/be/Al-jazeera-logo.jpg';
     // }
@@ -52,26 +56,30 @@ let RSSFeeds = [
     'http://www.cbc.ca/cmlink/rss-cbcaboriginal', 
     'https://www.democracynow.org/democracynow.rss', 
     'http://feeds.feedburner.com/motherjones/BlogsAndArticles', 
-    "http://canadaland.libsyn.com/rss", 
+    // "http://canadaland.libsyn.com/rss", 
+    "http://feeds.bbci.co.uk/news/rss.xml",
     "http://www.rollingstone.com/culture/rss", 
     // "http://www.aljazeera.com/xml/rss/all.xml"
 ]
 
-let getRSSFeeds = function(){
+let getRSSFeeds = function(cb){
     feed(RSSFeeds, (err, arts) => {
-        if (err) throw err; 
+        if (err) return cb(err); 
         articles = arts.map((element, index) => {
             articleClean(element); 
             return element; 
         })
+        return cb(null, articles);
     })
 }
 
 // Endpoint for articles
 
 app.get('/getarticles', (req, res) => {
-    getRSSFeeds();
-    res.json(articles); 
+    getRSSFeeds((err, articles) => {
+        res.json(articles); 
+    });
+    
 })
 
 

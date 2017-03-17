@@ -18,6 +18,7 @@ class App extends Component {
     }
 
     this.shuffleArray = this.shuffleArray.bind(this);
+    // this.sortArrayByTime = this.sortArrayByTime.bind(this);
     this.scrollFunction = this.scrollFunction.bind(this);
     this.closePopOut = this.closePopOut.bind(this);
     this.openPopOut = this.openPopOut.bind(this);
@@ -42,12 +43,17 @@ class App extends Component {
     }
     return array;
   }
+
+  // sortArrayByTime(a, b){
+  //   return a-b; 
+  // }
   
 
   componentWillMount(){
     axios.get('http://localhost:8080/getarticles')
     .then((response) => {
       let data = this.shuffleArray(response.data)
+      let sortedData = data.sort(function(a, b){return new Date(b.published) - new Date(a.published)})
       this.setState({
         feed: data
       })
