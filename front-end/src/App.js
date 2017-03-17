@@ -167,7 +167,7 @@ class App extends Component {
         articleViewing:key
       })
       this.slideShowClassToggles();
-    // wrap this in a function. 
+    // wrap this in a function and pass it into remove event listener. 
     document.addEventListener('keydown', (event) => {
             let selectedKey = event.keyCode || event.which; 
             this.slideshowNavigation(selectedKey);
