@@ -6,19 +6,20 @@ import './App.css'
 
 // Modules
 import Card from './modules/Card';
+// import Menu from './modules/Menu'
 
 class App extends Component {
   constructor(){
     super();
     this.state = {
-      feed: ['Nothing yet!'],
+      feed: [{'feed': 'Nothing yet'}],
       showPopOut: false,
       articleViewing: 0,
-      filterOn: false
+      filterOn: false,
+      dropdownShowing: false
     }
 
     this.shuffleArray = this.shuffleArray.bind(this);
-    // this.sortArrayByTime = this.sortArrayByTime.bind(this);
     this.scrollFunction = this.scrollFunction.bind(this);
     this.closePopOut = this.closePopOut.bind(this);
     this.openPopOut = this.openPopOut.bind(this);
@@ -28,6 +29,8 @@ class App extends Component {
     this.refreshFeed = this.refreshFeed.bind(this);
     this.slideshowNavigation=this.slideshowNavigation.bind(this);
     this.eventListener = this.eventListener.bind(this);
+    this.toggleDD= this.toggleDD.bind(this);
+    this.uniqueFeeds = this.uniqueFeeds.bind(this);
   }
   
   // Get RSS Feed from Server
@@ -46,17 +49,12 @@ class App extends Component {
     }
     return array;
   }
-
-  // sortArrayByTime(a, b){
-  //   return a-b; 
-  // }
   
-
   componentWillMount(){
     axios.get('http://localhost:8080/getarticles')
     .then((response) => {
-      let data = this.shuffleArray(response.data)
-      let sortedData = data.sort(function(a, b){return new Date(b.published) - new Date(a.published)})
+      // let data = this.shuffleArray(response.data)
+      let sortedData = response.data.sort(function(a, b){return new Date(b.published) - new Date(a.published)})
       this.setState({
         feed: sortedData
       })
@@ -188,6 +186,8 @@ class App extends Component {
     }
   }
 
+  // Refresh Feed
+
   refreshFeed(){
     axios.get('http://localhost:8080/getarticles')
     .then((response) => {
@@ -202,15 +202,49 @@ class App extends Component {
     })
   }
 
+ 
+  uniqueFeeds(articles){
+    let uniqueFeedList = [];
+    articles.forEach((element) => {
+      if (uniqueFeedList.indexOf(element.feed.name) === -1){
+        uniqueFeedList.push(element.feed.name);
+      }
+    })
+    return uniqueFeedList;
+  }
+
+  toggleDD(){
+    this.setState({
+      dropdownShowing: !this.state.dropdownShowing
+    })
+  }
+
   render() {
+    let dropdownPlaceholder;
+    if(this.state.dropdownShowing){
+      let uniqueFeedList = this.uniqueFeeds(this.state.feed);
+      let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
+        return(
+          <li className="dropdown__li" key={index}>
+            <input type="checkbox" />
+            {element}
+          </li>
+        )
+      })
+      dropdownPlaceholder = (
+        <ul className='dropdown'>
+          {dropdownPlaceholderMap}
+        </ul>
+      )
+    }
     return (
         <div className="appRoot">
           <div className="header">
             <div className="header--inner">
               <h1><i className="fa fa-newspaper-o" aria-hidden="true"></i></h1>
               <nav>
-                <i className="header__refresh fa fa-refresh" aria-hidden="true" onClick={this.refreshFeed}></i>
-                <i className="header__filter fa fa-filter" aria-hidden="true"></i>
+                <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
+                <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>             {dropdownPlaceholder}
                 <a id="header__login">Login</a>
               </nav>
             </div>

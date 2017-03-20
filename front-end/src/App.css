@@ -11,10 +11,9 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #9E9E9E;
+  background-color: #e0e0e0;
   z-index: 100;
   height: 100px;
-  overflow: hidden;
   -webkit-transition: height 0.3s;
   -moz-transition: height 0.3s;
   transition: height 0.3s;
@@ -28,24 +27,24 @@
 .header h1, .header nav {
   display: inline-block;
   position: relative;
-  color: #F5F5F5; }
+  color: #616161; }
 
 .header h1, .header nav a {
   line-height: 100px;
   text-decoration: none; }
 
 #header__login {
-  background-color: #4caf50;
+  background-color: #3f51b5;
   cursor: pointer;
   border: 1px solid divi;
-  color: #F5F5F5;
+  color: white;
   padding: 10px 25px;
   border-radius: 50px;
   text-transform: uppercase;
-  box-shadow: 1px 1px 5px #888888; }
+  font-size: 1.5em; }
 
 #header__login:hover {
-  background-color: #616161; }
+  background-color: #1a237e; }
 
 .header h1 {
   text-transform: uppercase;
@@ -53,24 +52,33 @@
   letter-spacing: 5px;
   font-size: 7em;
   margin: 0;
-  float: left;
-  text-shadow: 2px 2px 5px #888888; }
+  float: left; }
 
 .header nav {
   float: right; }
 
-.header nav a,
-.header nav i {
+.header nav a {
   margin: 0 0 0 20px;
-  font-size: 1.5em; }
-
-.header nav i {
-  color: white; }
-
-.header nav i:hover {
   color: #616161; }
 
-.header h1, .header nav a {
+.header nav i {
+  font-size: 2em; }
+
+.header nav i:hover {
+  color: black; }
+
+.dropdown {
+  position: absolute;
+  left: 0;
+  top: 75px;
+  background: black;
+  color: white;
+  z-index: 10000; }
+
+.dropdown__li {
+  text-decoration: none; }
+
+.header h1, #header__login, .header nav i {
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s; }
@@ -83,7 +91,7 @@
   line-height: 50px; }
 
 .header.header--shrink h1 {
-  font-size: 2em; }
+  font-size: 3em; }
 
 .header.header--shrink nav i, .header.header--shrink nav a {
   font-size: 1.25em; }
@@ -231,12 +239,19 @@
   width: 30%;
   text-align: center; }
 
+.slideshow .card__icon div a {
+  text-decoration: none;
+  color: #757575; }
+
 .slideshow .card__icon--img {
   width: 25%; }
 
 .slideshow .card__icon--link, .slideshow .card__icon--save {
   font-size: 2em;
   color: #757575; }
+
+.slideshow .card__icon--link:hover, .slideshow .card__icon--save:hover {
+  color: black; }
 
 .slideshow .card__p {
   clear: both;
@@ -273,6 +288,9 @@
   right: 0;
   padding: 0.5em 1em;
   color: white; }
+
+.slideshow nav span:hover {
+  color: black; }
 
 .icon:before,
 .icon:after {

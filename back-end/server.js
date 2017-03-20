@@ -41,6 +41,8 @@ let articleClean = function(element){
         element['logo'] = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Rolling_Stone_logo.svg/3000px-Rolling_Stone_logo.svg.png'
     } else if (element.feed.name.match(/BBC/ig)){
         element["logo"] ="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/BBC_News.svg/640px-BBC_News.svg.png"
+    } else if (element.feed.name.match(/guardian/ig)){
+        element["logo"]= "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/The_Guardian.svg/2000px-The_Guardian.svg.png"
     }
     
     // else if (element.feed.name.match(/jazeera/gi)){
@@ -59,6 +61,8 @@ let RSSFeeds = [
     // "http://canadaland.libsyn.com/rss", 
     "http://feeds.bbci.co.uk/news/rss.xml",
     "http://www.rollingstone.com/culture/rss", 
+    "https://www.theguardian.com/international/rss",
+    "http://rss.cbc.ca/lineup/topstories.xml"
     // "http://www.aljazeera.com/xml/rss/all.xml"
 ]
 

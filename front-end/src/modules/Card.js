@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Masonry from 'react-masonry-component';
 
-// Modules
-
-// import PopOut from './PopOut'
-
 let masonryOptions = {
     transitionDuration: 0
 }
@@ -53,7 +49,7 @@ class Card extends Component {
                             <i className="card__icon--save fa fa-bookmark-o" aria-hidden="true"></i>
                         </div>
                         <div>
-                            <i className="card__icon--link fa fa-external-link" aria-hidden="true"></i>
+                            <a href={element.link} target="blank"><i className="card__icon--link fa fa-external-link" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </figure>
@@ -76,7 +72,7 @@ class Card extends Component {
                             <i className="card__icon--save fa fa-bookmark-o" aria-hidden="true"></i>
                         </div>
                         <div>
-                            <i className="card__icon--link fa fa-external-link" aria-hidden="true"></i>
+                            <a href={element.link} target="blank"><i className="card__icon--link fa fa-external-link" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </figure>
