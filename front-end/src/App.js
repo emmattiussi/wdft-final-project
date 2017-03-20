@@ -226,15 +226,21 @@ class App extends Component {
       let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
         return(
           <li className="dropdown__li" key={index}>
-            <input type="checkbox" />
+            <input className="dropdown__input" type="checkbox" />
             {element}
           </li>
         )
       })
       dropdownPlaceholder = (
-        <ul className='dropdown'>
-          {dropdownPlaceholderMap}
-        </ul>
+        <div className='dropdown'>
+          <div className='dropdown__arrow--up'></div>
+          <ul>
+            {dropdownPlaceholderMap}
+          </ul>
+          <div className="dropdown__button">
+            <button className="dropdown__button--btn">Filter</button>
+          </div>
+        </div>
       )
     }
     return (

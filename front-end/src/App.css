@@ -36,7 +36,7 @@
 #header__login {
   background-color: #3f51b5;
   cursor: pointer;
-  border: 1px solid divi;
+  border: 1px solid #1a237e;
   color: white;
   padding: 10px 25px;
   border-radius: 50px;
@@ -69,14 +69,54 @@
 
 .dropdown {
   position: absolute;
-  left: 0;
-  top: 75px;
-  background: black;
-  color: white;
-  z-index: 10000; }
+  background: #616161;
+  color: #F5F5F5;
+  font-family: "Lato", sans-serif;
+  font-size: 1.25em;
+  width: 170%;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px #888888;
+  position: absolute;
+  right: 0;
+  top: 90px; }
+
+.dropdown__arrow--up {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 25px solid #616161;
+  top: -20px;
+  right: 125px; }
+
+.dropdown ul {
+  list-style: none;
+  padding: 5px 5px 0 5px;
+  margin-bottom: 0px; }
 
 .dropdown__li {
-  text-decoration: none; }
+  margin: 5px 0;
+  line-height: 30px; }
+
+.dropdown__li .dropdown__input {
+  margin: 0 10px 0 7px;
+  line-height: 30px; }
+
+.dropdown__button {
+  width: 100%; }
+
+.dropdown__button--btn {
+  padding: 10px 25px;
+  margin: 5px auto;
+  display: block;
+  font-family: "Lato", sans-serif;
+  background-color: #3f51b5;
+  padding: 10px 25px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  color: #F5F5F5;
+  border: 1px solid #1a237e; }
 
 .header h1, #header__login, .header nav i {
   -webkit-transition: all 0.3s;
