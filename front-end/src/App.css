@@ -142,6 +142,23 @@
 .header__filter {
   cursor: pointer; }
 
+@media (max-width: 320px) {
+  .header h1 {
+    font-size: 5em;
+    padding-left: 20px; }
+  .header .header--inner {
+    width: 100%;
+    padding: 0; }
+  .header nav {
+    float: none; }
+  .header nav a {
+    margin: 0 5px 0 5px; }
+  .header .header__refresh {
+    margin-left: 50px; }
+  #header__login {
+    font-size: 1em;
+    padding: 5px 12px; } }
+
 /* . Card Styles . */
 .cardRoot {
   margin-top: 120px; }
