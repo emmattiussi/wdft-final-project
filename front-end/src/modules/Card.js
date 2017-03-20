@@ -19,15 +19,18 @@ class Card extends Component {
 
     cardMap(element, index){
         return (
-            <div key={index} className="card__div col-lg-12">
-                <figure className='card' onClick={() => {this.props.openPopOut(index)}}>
-                    <div className="card__logo">
-                        <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
+            <div key={index} id={index} className="animate card__div col-lg-12">
+                <figure className='card'>
+                        <div className="card__logo" onClick={() => {this.props.openPopOut(index)}}>
+                            <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
+                        </div>
+                        <figcaption onClick={() => {this.props.openPopOut(index)}}>
+                            <h3 className="card__h3">{element.title}</h3>
+                        </figcaption>
+                    <div className="card__link--div">
+                        <a href={element.link} target='blank'><i className="card__link fa fa-external-link" aria-hidden="true"></i></a>
                     </div>
-                    <figcaption>
-                        <h3 className="card__h3">{element.title}</h3>
-                    </figcaption>
-                </figure>
+                </figure>   
             </div>
         )
     }

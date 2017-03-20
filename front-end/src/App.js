@@ -27,6 +27,7 @@ class App extends Component {
     this.nextArticle = this.nextArticle.bind(this);
     this.refreshFeed = this.refreshFeed.bind(this);
     this.slideshowNavigation=this.slideshowNavigation.bind(this);
+    this.eventListener = this.eventListener.bind(this);
   }
   
   // Get RSS Feed from Server
@@ -139,27 +140,24 @@ class App extends Component {
       showPopOut: false
     })
     this.slideShowClassToggles();
-    console.log('unmount')
-    document.removeEventListener('keydown',     this.slideshowNavigation)
+    document.removeEventListener('keydown', this.eventListener);
   }
 
   slideShowClassToggles(){
     let slideshow = document.getElementsByClassName('slideshow')[0]; 
-    let card = document.getElementsByClassName('cardRoot--visible')[0].firstChild; 
     // Toggle Slideshow.
     if (slideshow.classList.contains('slideshow-open')){
         slideshow.classList.remove('slideshow-open')
     } else {
       slideshow.classList.add('slideshow-open')
     }
-    // Toggle cards.
-    if (card.classList.contains('show')){
-      card.classList.remove('show');
-    } else {
-      card.classList.add('show');
-    }
-
   } 
+
+  eventListener(event){
+      console.log('in event listener')
+      let selectedKey = event.keyCode || event.which; 
+      this.slideshowNavigation(selectedKey);
+  }
 
   openPopOut(key){
     this.setState({
@@ -167,15 +165,12 @@ class App extends Component {
         articleViewing:key
       })
       this.slideShowClassToggles();
-    // wrap this in a function and pass it into remove event listener. 
-    document.addEventListener('keydown', (event) => {
-            let selectedKey = event.keyCode || event.which; 
-            this.slideshowNavigation(selectedKey);
-        })
-  }
+    document.addEventListener('keydown', this.eventListener);
+} 
 
   prevArticle(){
     console.log('previous article called')
+    console.log(this.state.articleViewing)
     if (this.state.articleViewing > 0){
       this.setState({
         articleViewing: this.state.articleViewing - 1
@@ -185,6 +180,7 @@ class App extends Component {
 
   nextArticle(){
     console.log('next article called')
+    console.log(this.state.articleViewing);
     if (this.state.articleViewing < this.state.feed.length -1){
       this.setState({
         articleViewing: this.state.articleViewing + 1
@@ -211,7 +207,7 @@ class App extends Component {
         <div className="appRoot">
           <div className="header">
             <div className="header--inner">
-              <h1>Title: TBC</h1>
+              <h1><i className="fa fa-newspaper-o" aria-hidden="true"></i></h1>
               <nav>
                 <i className="header__refresh fa fa-refresh" aria-hidden="true" onClick={this.refreshFeed}></i>
                 <i className="header__filter fa fa-filter" aria-hidden="true"></i>
