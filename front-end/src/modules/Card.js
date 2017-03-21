@@ -8,25 +8,48 @@ let masonryOptions = {
 class Card extends Component {
     constructor(){
         super();
+        this.cleanPublishDate = this.cleanPublishDate.bind(this);
         this.cardMap = this.cardMap.bind(this);
         this.slideshowCardMap = this.slideshowCardMap.bind(this);
         this.slideshowCardMapNoImage = this.slideshowCardMapNoImage.bind(this);
     }
 
+    cleanPublishDate(element){
+        let d = element.published;
+        let newDate = new Date(d);
+        let dh1Month = (newDate.getMonth()) + 1;
+        let dh1Day = newDate.getDate();
+        let dh1Year = newDate.getFullYear();
+        let dh1Time = newDate.toLocaleTimeString();
+        // check if dh1Month or dh1Day has a single digit.
+        if (/^\d$/.test(dh1Month)){
+            dh1Month = "0"+dh1Month;
+        } else if (/^\d$/.test(dh1Day)){
+            dh1Day = "0"+dh1Day;
+        }
+
+        let cleanDate = `${dh1Day}.${dh1Month}.${dh1Year} at ${dh1Time}`;
+
+        return cleanDate;
+    }
+
     cardMap(element, index){
+        let cleanDate = this.cleanPublishDate(element);
         return (
-            <div key={index} id={index} className="animate card__div col-lg-12">
-                <figure className='card'>
-                        <div className="card__logo" onClick={() => {this.props.openPopOut(index)}}>
+            <div key={index} id={index} className="card__div col-lg-12">
+                <figure className='card row'>
+                        <div className="card__logo col-lg-2" onClick={() => {this.props.openPopOut(index)}}>
                             <img className="card__logo--img" src={element.logo} alt="Source Logo"/>
                         </div>
-                        <figcaption onClick={() => {this.props.openPopOut(index)}}>
+                        <figcaption className="col-lg-9"onClick={() => {this.props.openPopOut(index)}}>
                             <h3 className="card__h3">{element.title}</h3>
+                            <p>Published on {cleanDate}</p>
                         </figcaption>
-                    <div className="card__link--div">
+                    <div className="col-lg-1 card__link--div">
                         <a href={element.link} target='blank'><i className="card__link fa fa-external-link" aria-hidden="true"></i></a>
                     </div>
-                </figure>   
+                </figure>
+                <div className='card__border'></div>   
             </div>
         )
     }

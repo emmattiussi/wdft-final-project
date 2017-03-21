@@ -12,7 +12,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      feed: [{'feed': 'Nothing yet'}],
+      feed: [{'feed': 'Nothing yet', 'published': new Date()}],
       showPopOut: false,
       articleViewing: 0,
       filterOn: false,
@@ -243,11 +243,20 @@ class App extends Component {
         </div>
       )
     }
+    let d = new Date();
+    let dh1Day = d.getDate()
+    let dh1Month = (d.getMonth()) + 1;
+    // check if dh1Month or dh1Day has a single digit.
+    if (/^\d$/.test(dh1Month)){
+      dh1Month = "0"+dh1Month;
+    } else if (/^\d$/.test(dh1Day)){
+      dh1Day = "0"+dh1Day;
+    }
     return (
         <div className="appRoot">
           <div className="header">
             <div className="header--inner">
-              <h1><i className="fa fa-newspaper-o" aria-hidden="true"></i></h1>
+              <h1>Today's Top Stories - {dh1Month}.{dh1Day}</h1>
               <nav>
                 <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
                 <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>             {dropdownPlaceholder}

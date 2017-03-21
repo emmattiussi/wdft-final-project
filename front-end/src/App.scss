@@ -2,7 +2,7 @@
 
 $font-family: 'Lato', sans-serif;
 $header-height: 100px; 
-$header-height-shrunk: 50px; 
+$header-height-shrunk: 60px; 
 $card__div--width: 500px;
 $dropdown-lineheight: 30px;
 
@@ -12,8 +12,8 @@ $primary-color-dark:   #616161;
 $primary-color:        #e0e0e0;
 $primary-color-light:  #F5F5F5;
 $primary-color-text:   #212121;
-$accent-color:         #3f51b5;
-$accent-color-dark:	   #1a237e;
+$accent-color:         #f44336;
+$accent-color-dark:	   #b71c1c;
 $primary-text-color:   #212121;
 $secondary-text-color: #757575;
 $divider-color:        #BDBDBD;
@@ -32,18 +32,13 @@ $divider-color:        #BDBDBD;
 	top:0;
 	left: 0;
 	width: 100%;
-	background-color: $primary-color;
-	// background: -webkit-linear-gradient(top left, $header-background1, $header-background2);   
-	// background: -moz-linear-gradient(top left, $header-background1, $header-background2);   
-	// background: -o-linear-gradient(top left, $header-background1, $header-background2);   
-	// background: linear-gradient(to bottom right, $header-background1, $header-background2);    
+	background-color: black;   
 	z-index: 100;
 	height: $header-height;
-	// overflow: hidden;
 	-webkit-transition: height 0.3s;
 	-moz-transition: height 0.3s;
 	transition: height 0.3s;
-	font-family: $font-family;
+	font-family: $font-family;	
 }
 
 .header .header--inner {
@@ -55,7 +50,7 @@ $divider-color:        #BDBDBD;
 .header h1, .header nav {
     display: inline-block;
     position: relative;
-	color: $primary-color-dark;
+	color: white;
 }
 
 .header h1, .header nav a {
@@ -80,10 +75,10 @@ $divider-color:        #BDBDBD;
 }
 
 .header h1 {
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 900; 
     letter-spacing: 5px;
-    font-size: 7em;
+    font-size: 3em;
     margin: 0;
     float: left;
 	// text-shadow: 2px 2px 5px #888888;
@@ -95,7 +90,7 @@ $divider-color:        #BDBDBD;
 
 .header nav a {
     margin: 0 0 0 20px;
-	color: $primary-color-dark;
+	color: white;
 }
 
 .header nav i {
@@ -103,7 +98,7 @@ $divider-color:        #BDBDBD;
 }
 
 .header nav i:hover {
-	color: black
+	color: $accent-color-dark;
 }
 
 // Dropdown menu
@@ -188,7 +183,7 @@ $divider-color:        #BDBDBD;
 }
 
 .header.header--shrink h1 {
-    font-size: 3em;
+    font-size: 2em;
 }
 
 .header.header--shrink nav i, .header.header--shrink nav a {
@@ -225,12 +220,13 @@ $divider-color:        #BDBDBD;
 	}
 
 	.header .header__refresh {
-		margin-left: 50px;
+		margin-left: 65px;
 	}
 
 	#header__login {
 		font-size: 1em;
 		padding: 5px 12px;
+		margin-left: 10px;
 	}
 }
 
@@ -240,31 +236,60 @@ $divider-color:        #BDBDBD;
     margin-top: $header-height+20px; 
 }
 
+/*!
+ * Hover.css (http://ianlunn.github.io/Hover/)
+ * Version: 2.1.0
+ * Author: Ian Lunn @IanLunn
+ * Author URL: http://ianlunn.co.uk/
+ * Github: https://github.com/IanLunn/Hover
+ * Made available under a MIT License:
+ * http://www.opensource.org/licenses/mit-license.php
+ * Hover.css Copyright Ian Lunn 2014. Generated with Sass.
+ */
+
+.masonryRoot .card__div:before {
+	content: ""; 
+	position: absolute;
+	z-index: -1;
+	top: 0; 
+	right: 10px;
+	left: 10px; 
+	bottom: 0;
+	background: $primary-color;
+	 -webkit-transform: scaleX(0);
+  	transform: scaleX(0);
+	// Changes where the view is placed at the x and y axis.
+  	-webkit-transform-origin: 50% 50%;
+  	transform-origin: 50% 50%;
+  	-webkit-transition-property: transform;
+  	transition-property: transform;
+  	-webkit-transition-duration: 0.4s;
+  	transition-duration: 0.4s;
+  	-webkit-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+}
+
+.masonryRoot .card__div:hover:before{
+	-webkit-transform: scaleX(1);
+	transform: scaleX(1);
+}
+
 .card{
     display: flex; 
 	flex-wrap: nowrap;
 	justify-content: left;
-    padding: 5px;
-    border: 1px solid $divider-color;
-	border-radius: 5px;
-    margin-bottom: 15px;
     font-family: $font-family;
     cursor: pointer;
     color: $primary-text-color;
-	min-height: 10%;
-	// Transition styles from: https://codepen.io/sdthornton/pen/wBZdXq
-	-webkit-transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1); 
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.card:hover{
-	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	padding: 10px 0;
 }
 
 .card figcaption {
 	align-self: center;
-	max-width: 80%
+}
+
+.card__border {
+	border-top: 1px dotted black;
 }
 
 .card__h3{
@@ -273,18 +298,23 @@ $divider-color:        #BDBDBD;
 	margin: 0;
 }
 
+.card p {
+	font-style: italic;
+	padding: 5px 0;
+	margin-bottom: 0;
+}
+
 .card__img {
     width: 100%;
 }
 
 .card__logo {
-    max-width:25%; 
     text-align: center;
 	align-self: center;
 }
 
 .card__logo--img {
-    width:30%;
+	width: 50%;
 }
 
 .card__link--div {
@@ -305,6 +335,15 @@ $divider-color:        #BDBDBD;
 
 .card__link {
 	margin: 0 10px;
+}
+
+@media (max-width: 320px){
+	.card__logo--img {
+
+	}
+	.card .card__h3 {
+		font-size: 1em;
+	}
 }
 
 /* . PopOut Styles . */
@@ -406,7 +445,7 @@ $divider-color:        #BDBDBD;
 }
 
 .slideshow .card__icon--img{
-	width: 25%;
+	width: 50%;
 }
 
 .slideshow .card__icon--link {
@@ -424,12 +463,13 @@ $divider-color:        #BDBDBD;
 
 .slideshow .card__p {
 	clear: both;
+	font-style: normal;
 	margin-top: 20px;
 	font-size: 1.2em;
 	text-align: justify;
 }
 
-.slideshow .card__h3 {
+.slideshow .card .card__h3 {
 	font-weight: 900;
 	font-size: 2em;
 	text-align: center;
@@ -465,7 +505,7 @@ $divider-color:        #BDBDBD;
 }
 
 .slideshow nav span:hover{
-	color: black;
+	color: $accent-color-dark;
 }
 
 .icon:before,
