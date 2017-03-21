@@ -31,6 +31,7 @@ class App extends Component {
     this.eventListener = this.eventListener.bind(this);
     this.toggleDD= this.toggleDD.bind(this);
     this.uniqueFeeds = this.uniqueFeeds.bind(this);
+    this.filterArticles = this.filterArticles.bind(this);
   }
   
   // Get RSS Feed from Server
@@ -202,7 +203,8 @@ class App extends Component {
     })
   }
 
- 
+  // Dropdown controls
+
   uniqueFeeds(articles){
     let uniqueFeedList = [];
     articles.forEach((element) => {
@@ -219,14 +221,36 @@ class App extends Component {
     })
   }
 
+  filterArticles(e){
+    e.preventDefault();
+    let checkboxes = document.getElementsByClassName('dropdown__input');
+    let checkedSources = [];
+    for (let i = 0; i < checkboxes.length; i++){
+      if (checkboxes[i].checked){
+        checkedSources.push(checkboxes[i].value); 
+      }
+    }
+    // Filtering an array from another array - http://stackoverflow.com/questions/34901593/how-to-filter-an-array-from-all-elements-of-another-array
+    let filteredArray = this.state.feed.filter(function(element){
+      // In this case, 'this' refers to checkedSources.
+      return (checkedSources.indexOf(element.feed.name) >= 0); 
+    })
+    this.setState({
+      dropdownShowing: false,
+      feed: filteredArray
+    })
+  }
+
+
   render() {
+    // Dropdown Menu Styles
     let dropdownPlaceholder;
     if(this.state.dropdownShowing){
       let uniqueFeedList = this.uniqueFeeds(this.state.feed);
       let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
         return(
           <li className="dropdown__li" key={index}>
-            <input className="dropdown__input" type="checkbox" />
+            <input className="dropdown__input" value={element} type="checkbox" />
             {element}
           </li>
         )
@@ -234,15 +258,18 @@ class App extends Component {
       dropdownPlaceholder = (
         <div className='dropdown'>
           <div className='dropdown__arrow--up'></div>
-          <ul>
-            {dropdownPlaceholderMap}
-          </ul>
-          <div className="dropdown__button">
-            <button className="dropdown__button--btn">Filter</button>
-          </div>
+          <form>
+            <ul>
+              {dropdownPlaceholderMap}
+            </ul>
+            <div className="dropdown__button">
+              <button onClick={this.filterArticles} className="dropdown__button--btn">Filter</button>
+            </div>
+          </form>
         </div>
       )
     }
+    // Get Published Date
     let d = new Date();
     let dh1Day = d.getDate()
     let dh1Month = (d.getMonth()) + 1;
@@ -259,7 +286,8 @@ class App extends Component {
               <h1>Today's Top Stories - {dh1Month}.{dh1Day}</h1>
               <nav>
                 <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
-                <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>             {dropdownPlaceholder}
+                <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>             
+                {dropdownPlaceholder}
                 <a id="header__login">Login</a>
               </nav>
             </div>
