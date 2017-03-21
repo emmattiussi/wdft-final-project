@@ -195,7 +195,8 @@ class App extends Component {
       let data = this.shuffleArray(response.data);
       let sortedData = data.sort(function(a, b){return new Date(b.published) - new Date(a.published)});
       this.setState({
-        feed: sortedData
+        feed: sortedData,
+        filterOn: false
       })
     }) 
     .catch((err) => {
@@ -237,7 +238,8 @@ class App extends Component {
     })
     this.setState({
       dropdownShowing: false,
-      feed: filteredArray
+      feed: filteredArray,
+      filterOn: true
     })
   }
 
@@ -245,7 +247,7 @@ class App extends Component {
   render() {
     // Dropdown Menu Styles
     let dropdownPlaceholder;
-    if(this.state.dropdownShowing){
+    if(this.state.dropdownShowing && !this.state.filterOn){
       let uniqueFeedList = this.uniqueFeeds(this.state.feed);
       let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
         return(
@@ -267,6 +269,30 @@ class App extends Component {
             </div>
           </form>
         </div>
+      )
+    } else if (this.state.dropdownShowing && this.state.filterOn){
+        let uniqueFeedList = this.uniqueFeeds(this.state.feed);
+        let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
+          return(
+            <li className="dropdown__li" key={index}>
+              <input className="dropdown__input" value={element} type="checkbox" />
+              {element}
+            </li>
+          )
+        })
+        dropdownPlaceholder = (
+          <div className='dropdown'>
+            <div className='dropdown__arrow--up'></div>
+            <form>
+              <ul>
+                {dropdownPlaceholderMap}
+              </ul>
+              <div className="dropdown__button">
+                <button onClick={this.filterArticles} className="dropdown__button--filter">Filter</button>
+                <button onClick={this.refreshFeed} className="dropdown__button--refresh">Refresh</button>
+              </div>
+            </form>
+          </div>
       )
     }
     // Get Published Date

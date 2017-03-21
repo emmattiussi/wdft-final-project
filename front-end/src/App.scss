@@ -66,7 +66,6 @@ $divider-color:        #BDBDBD;
     padding: 10px 25px;
     border-radius: 50px;
     text-transform: uppercase;
-	// box-shadow: 1px 1px 5px #888888;
 	font-size: 1.5em;
 }
 
@@ -161,6 +160,27 @@ $divider-color:        #BDBDBD;
     text-transform: uppercase;
 	color: $primary-color-light;
 	border: 1px solid $accent-color-dark;
+}
+
+.dropdown__button--btn:hover {
+	@extend #header__login:hover;
+}
+
+.dropdown__button--filter {
+	@extend .dropdown__button--btn;
+	padding: 10px 10px;
+	display: inline-block;
+	margin: 5px 0px 5px 70px;
+}
+
+.dropdown__button--refresh {
+	@extend .dropdown__button--filter;
+	background-color: #2196f3;
+	border: 1px solid #0d47a1;
+}
+
+.dropdown__button--refresh:hover {
+	background-color: #0d47a1;
 }
 
 // Header Transition Styles
