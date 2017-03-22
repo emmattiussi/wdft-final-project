@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Loading extends Component {
     render(){
         return(
-            <div className="animate card__div--loading col-lg-12">
+            <div className="card__div--loading col-lg-12">
                 <figure className='card--loading row'>
                         <div className="card__logo--loading col-lg-2"></div>
                         <figcaption className="col-lg-9">

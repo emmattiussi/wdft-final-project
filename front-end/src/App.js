@@ -279,8 +279,6 @@ class App extends Component {
           <ReactCSSTransitionGroup
             component="div"
             transitionName="list"
-            transitionEnterTimeout={300}
-            transitionLeaveTimeout={20}
           >
             <Card
               articles={this.state.feed}
@@ -317,12 +315,9 @@ class App extends Component {
           </div>
           <ReactCSSTransitionGroup
             component="div"
+            className="loading__group"
             transitionName="flash"
             transitionAppear={true}
-            transitionAppearTimeout={100}
-            transitionEnterTimeout={1000}
-            transitionLeaveTimeout={10}
-            transitionLeave={false}
           >
             <Loading
               key={1}

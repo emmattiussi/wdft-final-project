@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
-// import Masonry from 'react-masonry-component';
 
 // CSS
 import './../App.css'
-
-
-
-// let masonryOptions = {
-//     transitionDuration: 0
-// }
 
 class Card extends Component {
     constructor() {
