@@ -287,7 +287,6 @@ class App extends Component {
         </div>
       );
     } else {
-      console.log('this.state.loading is true')
       return (
         <div className="appRoot">
           <div className="header">
