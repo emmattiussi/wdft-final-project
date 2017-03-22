@@ -267,7 +267,7 @@ $divider-color:        #BDBDBD;
  * Hover.css Copyright Ian Lunn 2014. Generated with Sass.
  */
 
-.masonryRoot .card__div:before {
+.cardRoot .card__div:before {
 	content: ""; 
 	position: absolute;
 	z-index: -1;
@@ -289,7 +289,7 @@ $divider-color:        #BDBDBD;
 	transition-timing-function: ease-out;
 }
 
-.masonryRoot .card__div:hover:before{
+.cardRoot .card__div:hover:before{
 	-webkit-transform: scaleX(1);
 	transform: scaleX(1);
 }
@@ -630,7 +630,7 @@ $divider-color:        #BDBDBD;
 
 .flash-leave.flash-leave-active {
   opacity: 0.01;
-  transition: opacity 1s ease-in;
+  transition: opacity 0.1s ease-in;
 }
 
 .flash-enter{
@@ -669,6 +669,15 @@ $divider-color:        #BDBDBD;
 }
 
 	// Rendering list
+
+.list-appear {
+	opacity: 0.01;
+}
+
+.list-appear.list-appear.active {
+	opacity: 1;
+	transition: opacity 1s ease-in;
+}
 
 .list-enter {
 	opacity: 0.01;

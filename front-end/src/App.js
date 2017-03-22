@@ -279,7 +279,7 @@ class App extends Component {
           <ReactCSSTransitionGroup
             component="div"
             transitionName="list"
-            transitionEnterTimeout={10}
+            transitionEnterTimeout={300}
             transitionLeaveTimeout={20}
           >
             <Card
@@ -319,7 +319,7 @@ class App extends Component {
             component="div"
             transitionName="flash"
             transitionAppear={true}
-            transitionAppearTimeout={0}
+            transitionAppearTimeout={100}
             transitionEnterTimeout={1000}
             transitionLeaveTimeout={10}
             transitionLeave={false}

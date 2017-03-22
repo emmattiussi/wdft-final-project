@@ -185,7 +185,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  * Hover.css Copyright Ian Lunn 2014. Generated with Sass.
  */
-.masonryRoot .card__div:before {
+.cardRoot .card__div:before, .card__div--loading .card__div:before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -205,7 +205,7 @@
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out; }
 
-.masonryRoot .card__div:hover:before {
+.cardRoot .card__div:hover:before, .card__div--loading .card__div:hover:before {
   -webkit-transform: scaleX(1);
   transform: scaleX(1); }
 
@@ -471,7 +471,7 @@
 
 .flash-leave.flash-leave-active {
   opacity: 0.01;
-  transition: opacity 1s ease-in; }
+  transition: opacity 0.1s ease-in; }
 
 .flash-enter {
   opacity: 0.01; }
@@ -496,6 +496,13 @@
     opacity: 1; }
   100% {
     opacity: 0.01; } }
+
+.list-appear {
+  opacity: 0.01; }
+
+.list-appear.list-appear.active {
+  opacity: 1;
+  transition: opacity 1s ease-in; }
 
 .list-enter {
   opacity: 0.01; }
