@@ -279,8 +279,8 @@ $divider-color:        #BDBDBD;
 	 -webkit-transform: scaleX(0);
   	transform: scaleX(0);
 	// Changes where the view is placed at the x and y axis.
-  	-webkit-transform-origin: 50% 50%;
-  	transform-origin: 50% 50%;
+  	-webkit-transform-origin: 0% 50%;
+  	transform-origin: 0% 50%;
   	-webkit-transition-property: transform;
   	transition-property: transform;
   	-webkit-transition-duration: 0.3s;
@@ -322,6 +322,8 @@ $divider-color:        #BDBDBD;
 	font-style: italic;
 	padding: 5px 0;
 	margin-bottom: 0;
+	font-family: $font-family;
+	font-weight: 300;
 }
 
 .card__img {
@@ -491,6 +493,7 @@ $divider-color:        #BDBDBD;
 	margin-top: 20px;
 	font-size: 1.2em;
 	text-align: justify;
+	font-weight: 300;
 }
 
 .slideshow .card .card__h3 {
@@ -546,7 +549,7 @@ $divider-color:        #BDBDBD;
 }
 
 
-/* Info on arrow key navigation */
+// Info on arrow key navigation
 .info-keys {
 	position: fixed;
 	top: 10px;
@@ -564,4 +567,123 @@ $divider-color:        #BDBDBD;
 	@extend .info-keys; 
 	left: 75px;
 	top: 20px;
+}
+
+// Loading Card Styles
+
+.card__div--loading {
+	@extend .cardRoot;
+}
+
+.card--loading {
+	@extend .card;
+	height: 150px;
+	width: 90%;
+	margin: 0 auto;
+	border: 1px solid $primary-color-light
+}
+
+.card__logo--loading {
+	@extend .card__logo;
+	background-color: $primary-color;
+	height: 100%;
+	width: 15%;
+	margin: 0 auto;
+	border-radius: 10px;
+}
+
+.card--loading figcaption {
+	height: 100%;
+	padding: 20px 10px;
+}
+
+.card__h3--loading{
+	height: 35%;
+	width: 100%;
+	background-color: $primary-color;
+	border-radius: 5px;
+}
+
+.card__published--loading {
+	width: 50%;
+	height: 20%;
+	background-color: $primary-color;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+
+// Animations
+
+	// Loading
+
+.flash-appear{
+	opacity: 0.01;
+}
+
+.flash-appear.flash-appear-active {
+	animation: 5s ease-in pulse;
+}
+
+.flash-leave {
+  opacity: 1;
+}
+
+.flash-leave.flash-leave-active {
+  opacity: 0.01;
+  transition: opacity 1s ease-in;
+}
+
+.flash-enter{
+	opacity: 0.01; 
+}
+
+.flash-enter.flash-enter-active {
+	animation: 5s ease-in pulse;
+}
+
+@keyframes pulse {
+	0% {
+		opacity: 0.01;
+	}
+	25% {
+		opacity: 1; 
+	}
+	50% {
+		opacity: 0.01;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@-moz-keyframes pulse {
+	0% {
+		opacity: 0.01;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.01;
+	}
+}
+
+	// Rendering list
+
+.list-enter {
+	opacity: 0.01;
+}
+
+.list-enter.list-enter-active {
+	opacity: 1;
+	transition: opacity 1s ease-in;
+}
+
+.list-leave {
+	opacity: 1; 
+}
+
+.list-leave.list-leave-active {
+	opacity: 0.01;
+	transition: opacity 1s ease-in;
 }

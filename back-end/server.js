@@ -43,12 +43,10 @@ let articleClean = function(element){
         element["logo"] ="./bbc.png"
     } else if (element.feed.name.match(/guardian/ig)){
         element["logo"]= "./guardian.png"
+    } else if (element.feed.name.match(/toronto/ig)){
+        element["logo"] = '.torontostar.jpg'
     }
     
-    // else if (element.feed.name.match(/jazeera/gi)){
-    //     element['logo'] = 
-    //     'https://upload.wikimedia.org/wikipedia/commons/b/be/Al-jazeera-logo.jpg';
-    // }
     return element;
 }
 
@@ -62,7 +60,8 @@ let RSSFeeds = [
     "http://feeds.bbci.co.uk/news/rss.xml",
     "http://www.rollingstone.com/culture/rss", 
     "https://www.theguardian.com/international/rss",
-    "http://rss.cbc.ca/lineup/topstories.xml"
+    "http://rss.cbc.ca/lineup/topstories.xml", 
+    "http://www.rollingstone.com/politics/rss"
     // "http://www.aljazeera.com/xml/rss/all.xml"
 ]
 

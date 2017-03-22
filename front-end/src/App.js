@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' // ES6
 import axios from 'axios';
 
 // CSS
@@ -6,17 +7,19 @@ import './App.css'
 
 // Modules
 import Card from './modules/Card';
-// import Menu from './modules/Menu'
+import Loading from './modules/Loading'
+import Menu from './modules/Menu'
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-      feed: [{'feed': 'Nothing yet', 'published': new Date()}],
+      feed: [{ 'feed': 'Nothing yet', 'published': new Date() }],
       showPopOut: false,
       articleViewing: 0,
       filterOn: false,
-      dropdownShowing: false
+      dropdownShowing: false,
+      loading: true
     }
 
     this.shuffleArray = this.shuffleArray.bind(this);
@@ -27,13 +30,13 @@ class App extends Component {
     this.prevArticle = this.prevArticle.bind(this);
     this.nextArticle = this.nextArticle.bind(this);
     this.refreshFeed = this.refreshFeed.bind(this);
-    this.slideshowNavigation=this.slideshowNavigation.bind(this);
+    this.slideshowNavigation = this.slideshowNavigation.bind(this);
     this.eventListener = this.eventListener.bind(this);
-    this.toggleDD= this.toggleDD.bind(this);
-    this.uniqueFeeds = this.uniqueFeeds.bind(this);
+    this.toggleDD = this.toggleDD.bind(this);
+    // this.uniqueFeeds = this.uniqueFeeds.bind(this);
     this.filterArticles = this.filterArticles.bind(this);
   }
-  
+
   // Get RSS Feed from Server
 
   // From https://bost.ocks.org/mike/shuffle/
@@ -41,7 +44,7 @@ class App extends Component {
     var l = array.length, t, i;
     // While there remain elements to shuffle…
     while (l) {
-    // Pick a remaining element…
+      // Pick a remaining element…
       i = Math.floor(Math.random() * l--);
       // And swap it with the current element.
       t = array[l];
@@ -50,19 +53,20 @@ class App extends Component {
     }
     return array;
   }
-  
-  componentWillMount(){
+
+  componentWillMount() {
     axios.get('http://localhost:8080/getarticles')
-    .then((response) => {
-      // let data = this.shuffleArray(response.data)
-      let sortedData = response.data.sort(function(a, b){return new Date(b.published) - new Date(a.published)})
-      this.setState({
-        feed: sortedData
+      .then((response) => {
+        // let data = this.shuffleArray(response.data)
+        let sortedData = response.data.sort(function (a, b) { return new Date(b.published) - new Date(a.published) })
+        this.setState({
+          feed: sortedData,
+          loading: false
+        })
       })
-    }) 
-    .catch((err) => {
-      console.log(err);
-    })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   /*
@@ -75,24 +79,24 @@ class App extends Component {
   scrollFunction() {
     const rootElement = document.documentElement;
     let header = document.querySelector('.header'),
-        didScroll = false,
-        changeHeaderOn = 250;
+      didScroll = false,
+      changeHeaderOn = 250;
 
-    function init(){
+    function init() {
       window.addEventListener('scroll', (event) => {
-        if(!didScroll) {
-          didScroll=true;
+        if (!didScroll) {
+          didScroll = true;
           setTimeout(scrollPage, 250);
         }
       })
     }
-    
-    function scrollPage(){
-      function scrollY(){
+
+    function scrollPage() {
+      function scrollY() {
         return window.pageYOffset || rootElement.scrollTop;
       }
       let sy = scrollY();
-      if (sy >= changeHeaderOn){
+      if (sy >= changeHeaderOn) {
         header.className = "header header--shrink";
       } else {
         header.className = "header";
@@ -100,10 +104,10 @@ class App extends Component {
       didScroll = false;
     }
 
-    init(); 
+    init();
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.scrollFunction();
   }
 
@@ -114,27 +118,27 @@ class App extends Component {
     Copyright 2014, Codrops - http://www.codrops.com
   */
 
-  slideshowNavigation(keyCode){
-        // if (this.props.showPopOut){
-      switch(keyCode) {
-              // Left Arrow Key
-              case 37: 
-                  this.prevArticle()
-                  break;
-              // Right Arrow Key
-              case 39:
-                  this.nextArticle()
-                  break;
-              // Escape Key
-              case 27:
-                  this.closePopOut();
-                  break;
-              default: 
-                  break;
-          }
+  slideshowNavigation(keyCode) {
+    // if (this.props.showPopOut){
+    switch (keyCode) {
+      // Left Arrow Key
+      case 37:
+        this.prevArticle()
+        break;
+      // Right Arrow Key
+      case 39:
+        this.nextArticle()
+        break;
+      // Escape Key
+      case 27:
+        this.closePopOut();
+        break;
+      default:
+        break;
+    }
   }
 
-  closePopOut(){
+  closePopOut() {
     this.setState({
       showPopOut: false
     })
@@ -142,45 +146,45 @@ class App extends Component {
     document.removeEventListener('keydown', this.eventListener);
   }
 
-  slideShowClassToggles(){
-    let slideshow = document.getElementsByClassName('slideshow')[0]; 
+  slideShowClassToggles() {
+    let slideshow = document.getElementsByClassName('slideshow')[0];
     // Toggle Slideshow.
-    if (slideshow.classList.contains('slideshow-open')){
-        slideshow.classList.remove('slideshow-open')
+    if (slideshow.classList.contains('slideshow-open')) {
+      slideshow.classList.remove('slideshow-open')
     } else {
       slideshow.classList.add('slideshow-open')
     }
-  } 
-
-  eventListener(event){
-      console.log('in event listener')
-      let selectedKey = event.keyCode || event.which; 
-      this.slideshowNavigation(selectedKey);
   }
 
-  openPopOut(key){
-    this.setState({
-        showPopOut: true,
-        articleViewing:key
-      })
-      this.slideShowClassToggles();
-    document.addEventListener('keydown', this.eventListener);
-} 
+  eventListener(event) {
+    console.log('in event listener')
+    let selectedKey = event.keyCode || event.which;
+    this.slideshowNavigation(selectedKey);
+  }
 
-  prevArticle(){
+  openPopOut(key) {
+    this.setState({
+      showPopOut: true,
+      articleViewing: key
+    })
+    this.slideShowClassToggles();
+    document.addEventListener('keydown', this.eventListener);
+  }
+
+  prevArticle() {
     console.log('previous article called')
     console.log(this.state.articleViewing)
-    if (this.state.articleViewing > 0){
+    if (this.state.articleViewing > 0) {
       this.setState({
         articleViewing: this.state.articleViewing - 1
       })
     }
   }
 
-  nextArticle(){
+  nextArticle() {
     console.log('next article called')
     console.log(this.state.articleViewing);
-    if (this.state.articleViewing < this.state.feed.length -1){
+    if (this.state.articleViewing < this.state.feed.length - 1) {
       this.setState({
         articleViewing: this.state.articleViewing + 1
       })
@@ -189,52 +193,48 @@ class App extends Component {
 
   // Refresh Feed
 
-  refreshFeed(){
-    axios.get('http://localhost:8080/getarticles')
-    .then((response) => {
-      let data = this.shuffleArray(response.data);
-      let sortedData = data.sort(function(a, b){return new Date(b.published) - new Date(a.published)});
-      this.setState({
-        feed: sortedData,
-        filterOn: false
-      })
-    }) 
-    .catch((err) => {
-      console.log(err);
+  refreshFeed() {
+    this.setState({
+      loading: true
     })
+    axios.get('http://localhost:8080/getarticles')
+      .then((response) => {
+        let data = this.shuffleArray(response.data);
+        let sortedData = data.sort(function (a, b) { return new Date(b.published) - new Date(a.published) });
+        this.setState({
+          feed: sortedData,
+          filterOn: false,
+          loading: false
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   // Dropdown controls
 
-  uniqueFeeds(articles){
-    let uniqueFeedList = [];
-    articles.forEach((element) => {
-      if (uniqueFeedList.indexOf(element.feed.name) === -1){
-        uniqueFeedList.push(element.feed.name);
-      }
-    })
-    return uniqueFeedList;
-  }
-
-  toggleDD(){
+  toggleDD() {
+    console.log('in toggle')
+    console.log(this.state.dropdownShowing);
     this.setState({
       dropdownShowing: !this.state.dropdownShowing
     })
   }
 
-  filterArticles(e){
+  filterArticles(e) {
     e.preventDefault();
+    console.log('in filter articles')
     let checkboxes = document.getElementsByClassName('dropdown__input');
     let checkedSources = [];
-    for (let i = 0; i < checkboxes.length; i++){
-      if (checkboxes[i].checked){
-        checkedSources.push(checkboxes[i].value); 
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        checkedSources.push(checkboxes[i].value);
       }
     }
     // Filtering an array from another array - http://stackoverflow.com/questions/34901593/how-to-filter-an-array-from-all-elements-of-another-array
-    let filteredArray = this.state.feed.filter(function(element){
-      // In this case, 'this' refers to checkedSources.
-      return (checkedSources.indexOf(element.feed.name) >= 0); 
+    let filteredArray = this.state.feed.filter(function (element) {
+      return (checkedSources.indexOf(element.feed.name) >= 0);
     })
     this.setState({
       dropdownShowing: false,
@@ -245,92 +245,93 @@ class App extends Component {
 
 
   render() {
-    // Dropdown Menu Styles
-    let dropdownPlaceholder;
-    if(this.state.dropdownShowing && !this.state.filterOn){
-      let uniqueFeedList = this.uniqueFeeds(this.state.feed);
-      let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
-        return(
-          <li className="dropdown__li" key={index}>
-            <input className="dropdown__input" value={element} type="checkbox" />
-            {element}
-          </li>
-        )
-      })
-      dropdownPlaceholder = (
-        <div className='dropdown'>
-          <div className='dropdown__arrow--up'></div>
-          <form>
-            <ul>
-              {dropdownPlaceholderMap}
-            </ul>
-            <div className="dropdown__button">
-              <button onClick={this.filterArticles} className="dropdown__button--btn">Filter</button>
-            </div>
-          </form>
-        </div>
-      )
-    } else if (this.state.dropdownShowing && this.state.filterOn){
-        let uniqueFeedList = this.uniqueFeeds(this.state.feed);
-        let dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
-          return(
-            <li className="dropdown__li" key={index}>
-              <input className="dropdown__input" value={element} type="checkbox" />
-              {element}
-            </li>
-          )
-        })
-        dropdownPlaceholder = (
-          <div className='dropdown'>
-            <div className='dropdown__arrow--up'></div>
-            <form>
-              <ul>
-                {dropdownPlaceholderMap}
-              </ul>
-              <div className="dropdown__button">
-                <button onClick={this.filterArticles} className="dropdown__button--filter">Filter</button>
-                <button onClick={this.refreshFeed} className="dropdown__button--refresh">Refresh</button>
-              </div>
-            </form>
-          </div>
-      )
-    }
     // Get Published Date
     let d = new Date();
     let dh1Day = d.getDate()
     let dh1Month = (d.getMonth()) + 1;
     // check if dh1Month or dh1Day has a single digit.
-    if (/^\d$/.test(dh1Month)){
-      dh1Month = "0"+dh1Month;
-    } else if (/^\d$/.test(dh1Day)){
-      dh1Day = "0"+dh1Day;
+    if (/^\d$/.test(dh1Month)) {
+      dh1Month = "0" + dh1Month;
+    } else if (/^\d$/.test(dh1Day)) {
+      dh1Day = "0" + dh1Day;
     }
-    return (
+
+    if (!this.state.loading) {
+      return (
         <div className="appRoot">
           <div className="header">
             <div className="header--inner">
-              <h1>Today's Top Stories - {dh1Month}.{dh1Day}</h1>
+              <h1>Today's Top Stories | {dh1Month}.{dh1Day}</h1>
               <nav>
                 <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
-                <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>             
-                {dropdownPlaceholder}
+                <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>
+                <Menu
+                  dropdownShowing={this.state.dropdownShowing}
+                  filterOn={this.state.filterOn}
+                  articles={this.state.feed}
+                  filterArticles={this.filterArticles}
+                  refreshFeed={this.refreshFeed}
+                />
                 <a id="header__login">Login</a>
               </nav>
             </div>
-          </div> 
-          <Card 
-            articles={this.state.feed} 
-            openPopOut={this.openPopOut}
-            closePopOut={this.closePopOut}
-            prevArticle={this.prevArticle}
-            nextArticle={this.nextArticle}
-            showPopOut={this.state.showPopOut} 
-            articleViewing={this.state.articleViewing} 
-          />
-      </div> 
-
-    );
+          </div>
+          <ReactCSSTransitionGroup
+            component="div"
+            transitionName="list"
+            transitionEnterTimeout={10}
+            transitionLeaveTimeout={20}
+          >
+            <Card
+              articles={this.state.feed}
+              openPopOut={this.openPopOut}
+              closePopOut={this.closePopOut}
+              prevArticle={this.prevArticle}
+              nextArticle={this.nextArticle}
+              showPopOut={this.state.showPopOut}
+              articleViewing={this.state.articleViewing}
+            />
+          </ReactCSSTransitionGroup>
+        </div>
+      );
+    } else {
+      console.log('this.state.loading is true')
+      return (
+        <div className="appRoot">
+          <div className="header">
+            <div className="header--inner">
+              <h1>Today's Top Stories | {dh1Month}.{dh1Day}</h1>
+              <nav>
+                <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
+                <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>
+                <Menu
+                  dropdownShowing={this.state.dropdownShowing}
+                  filterOn={this.state.filterOn}
+                  articles={this.state.feed}
+                  filterArticles={this.filterArticles}
+                  refreshFeed={this.refreshFeed}
+                />
+                <a id="header__login">Login</a>
+              </nav>
+            </div>
+          </div>
+          <ReactCSSTransitionGroup
+            component="div"
+            transitionName="flash"
+            transitionAppear={true}
+            transitionAppearTimeout={0}
+            transitionEnterTimeout={1000}
+            transitionLeaveTimeout={10}
+            transitionLeave={false}
+          >
+            <Loading
+              key={1}
+            />
+          </ReactCSSTransitionGroup>
+        </div>
+      )
+    }
   }
-  }
+}
 
 export default App;
