@@ -12,9 +12,7 @@ The goal of this application is to aggregate a variety of news from RSS feeds, a
 - Bootstrap
 - NPM Modules
     - Axios
-    - Body-Parser
-    - React-Masonry-Component
-    - React-Bootstrap
+    - React-CSS-Transitions-Group
 
 ###### Back-End
 - Node.js
