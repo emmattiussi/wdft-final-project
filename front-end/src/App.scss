@@ -267,7 +267,7 @@ $divider-color:        #BDBDBD;
  * Hover.css Copyright Ian Lunn 2014. Generated with Sass.
  */
 
-.cardRoot .card__div:before {
+.cardRoot .card__div--hover:before {
 	content: ""; 
 	position: absolute;
 	z-index: -1;
@@ -289,7 +289,7 @@ $divider-color:        #BDBDBD;
 	transition-timing-function: ease-out;
 }
 
-.cardRoot .card__div:hover:before{
+.cardRoot .card__div--hover:hover:before{
 	-webkit-transform: scaleX(1);
 	transform: scaleX(1);
 }
@@ -377,7 +377,7 @@ $divider-color:        #BDBDBD;
 // Slideshow styles adapted from Codrops - https://tympanus.net/Blueprints/GridGallery/
 // Licensed under the MIT license - http://www.opensource.org/licenses/mit-license.php
 // Copyright 2014, Codrops - http://www.codrops.com
-  
+
 .slideshow {
 	position: fixed;
 	background: rgba(0,0,0,0.6);

@@ -42,7 +42,7 @@ class Card extends Component {
     cardMap(element, index) {
         let cleanDate = this.cleanPublishDate(element);
         return (
-            <div key={index} className="card__div col-lg-12">
+            <div key={index} className="card__div card__div--hover col-lg-12">
                 <figure className='card row'>
                     <div className="card__logo col-lg-2" onClick={() => { this.props.openPopOut(index) }}>
                         <img className="card__logo--img" src={element.logo} alt="Source Logo" />

@@ -185,7 +185,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  * Hover.css Copyright Ian Lunn 2014. Generated with Sass.
  */
-.cardRoot .card__div:before, .card__div--loading .card__div:before {
+.cardRoot .card__div--hover:before, .card__div--loading .card__div--hover:before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -205,7 +205,7 @@
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out; }
 
-.cardRoot .card__div:hover:before, .card__div--loading .card__div:hover:before {
+.cardRoot .card__div--hover:hover:before, .card__div--loading .card__div--hover:hover:before {
   -webkit-transform: scaleX(1);
   transform: scaleX(1); }
 
