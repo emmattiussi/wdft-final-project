@@ -157,7 +157,6 @@ class App extends Component {
   }
 
   eventListener(event) {
-    console.log('in event listener')
     let selectedKey = event.keyCode || event.which;
     this.slideshowNavigation(selectedKey);
   }
@@ -276,10 +275,6 @@ class App extends Component {
               </nav>
             </div>
           </div>
-          <ReactCSSTransitionGroup
-            component="div"
-            transitionName="list"
-          >
             <Card
               articles={this.state.feed}
               openPopOut={this.openPopOut}
@@ -289,7 +284,6 @@ class App extends Component {
               showPopOut={this.state.showPopOut}
               articleViewing={this.state.articleViewing}
             />
-          </ReactCSSTransitionGroup>
         </div>
       );
     } else {

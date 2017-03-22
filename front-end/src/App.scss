@@ -630,7 +630,7 @@ $divider-color:        #BDBDBD;
 
 .flash-leave.flash-leave-active {
   opacity: 0.01;
-  transition: opacity 0.1s ease-in;
+  transition: opacity 1s ease-in;
 }
 
 .flash-enter{
@@ -666,33 +666,4 @@ $divider-color:        #BDBDBD;
 	100% {
 		opacity: 0.01;
 	}
-}
-
-	// Rendering list
-
-.list-appear {
-	opacity: 0.01;
-}
-
-.list-appear.list-appear.active {
-	opacity: 1;
-	transition: opacity 1s ease-in;
-}
-
-.list-enter {
-	opacity: 0.01;
-}
-
-.list-enter.list-enter-active {
-	opacity: 1;
-	transition: opacity 1s ease-in;
-}
-
-.list-leave {
-	opacity: 1; 
-}
-
-.list-leave.list-leave-active {
-	opacity: 0.01;
-	transition: opacity 1s ease-in;
 }
