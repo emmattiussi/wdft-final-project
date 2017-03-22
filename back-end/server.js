@@ -43,8 +43,8 @@ let articleClean = function(element){
         element["logo"] ="./bbc.png"
     } else if (element.feed.name.match(/guardian/ig)){
         element["logo"]= "./guardian.png"
-    } else if (element.feed.name.match(/toronto/ig)){
-        element["logo"] = '.torontostar.jpg'
+    } else if (element.feed.link.match(/wired/ig)){
+        element["logo"] = './wired.jpg'
     }
     
     return element;
@@ -61,8 +61,11 @@ let RSSFeeds = [
     "http://www.rollingstone.com/culture/rss", 
     "https://www.theguardian.com/international/rss",
     "http://rss.cbc.ca/lineup/topstories.xml", 
-    "http://www.rollingstone.com/politics/rss"
-    // "http://www.aljazeera.com/xml/rss/all.xml"
+    "http://www.rollingstone.com/politics/rss",
+    "https://www.wired.com/feed/",
+    "https://www.wired.com/category/design/feed/",
+    "https://www.wired.com/category/gear/feed/",
+    "https://www.wired.com/category/science/feed/"
 ]
 
 let getRSSFeeds = function(cb){
@@ -75,9 +78,6 @@ let getRSSFeeds = function(cb){
         return cb(null, articles);
     })
 }
-
-// Data tracking? 
-// If new request in within 2min (e.g.) just send the old data, if not, get new data. 
 
 // Endpoint for articles
 
