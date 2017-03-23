@@ -8,7 +8,6 @@ import './App.css'
 // Modules
 import Card from './modules/Card';
 import Loading from './modules/Loading'
-import Menu from './modules/Menu'
 
 class App extends Component {
   constructor() {
@@ -33,8 +32,9 @@ class App extends Component {
     this.slideshowNavigation = this.slideshowNavigation.bind(this);
     this.eventListener = this.eventListener.bind(this);
     this.toggleDD = this.toggleDD.bind(this);
-    // this.uniqueFeeds = this.uniqueFeeds.bind(this);
+    this.uniqueFeeds = this.uniqueFeeds.bind(this);
     this.filterArticles = this.filterArticles.bind(this);
+    this.dropdownShrunk = this.dropdownShrunk.bind(this);
   }
 
   // Get RSS Feed from Server
@@ -79,8 +79,8 @@ class App extends Component {
   scrollFunction() {
     const rootElement = document.documentElement;
     let header = document.querySelector('.header'),
-      didScroll = false,
-      changeHeaderOn = 250;
+        didScroll = false,
+        changeHeaderOn = 250;      
 
     function init() {
       window.addEventListener('scroll', (event) => {
@@ -171,8 +171,6 @@ class App extends Component {
   }
 
   prevArticle() {
-    console.log('previous article called')
-    console.log(this.state.articleViewing)
     if (this.state.articleViewing > 0) {
       this.setState({
         articleViewing: this.state.articleViewing - 1
@@ -181,8 +179,6 @@ class App extends Component {
   }
 
   nextArticle() {
-    console.log('next article called')
-    console.log(this.state.articleViewing);
     if (this.state.articleViewing < this.state.feed.length - 1) {
       this.setState({
         articleViewing: this.state.articleViewing + 1
@@ -213,9 +209,17 @@ class App extends Component {
 
   // Dropdown controls
 
+  uniqueFeeds(articles) {
+    let uniqueFeedList = [];
+    articles.forEach((element) => {
+      if (uniqueFeedList.indexOf(element.feed.name) === -1) {
+        uniqueFeedList.push(element.feed.name);
+      }
+    })
+    return uniqueFeedList;
+  }
+
   toggleDD() {
-    console.log('in toggle')
-    console.log(this.state.dropdownShowing);
     this.setState({
       dropdownShowing: !this.state.dropdownShowing
     })
@@ -223,7 +227,6 @@ class App extends Component {
 
   filterArticles(e) {
     e.preventDefault();
-    console.log('in filter articles')
     let checkboxes = document.getElementsByClassName('dropdown__input');
     let checkedSources = [];
     for (let i = 0; i < checkboxes.length; i++) {
@@ -242,8 +245,60 @@ class App extends Component {
     })
   }
 
+  dropdownShrunk(){
+    let header = document.querySelector('.header');
+    if (header.classList.contains('header--shrink')){
+      let dropdown = document.querySelector('.dropdown');
+      dropdown.id = 'dropdown--shrink'
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if (!prevState.dropdownShowing){
+      this.dropdownShrunk();
+    }
+  }
 
   render() {
+    // Dropdown Menu
+    let dropdownPlaceholderMap = [];
+    let buttons;
+    let dropdown;
+    if (this.state.dropdownShowing && !this.state.filterOn) {
+      buttons = (<div className="dropdown__button">
+        <button onClick={this.filterArticles} className="dropdown__button--btn">Filter</button>
+      </div>)
+    } else if (this.state.dropdownShowing && this.state.filterOn) {
+      buttons = (<div className="dropdown__button>">
+        <button onClick={this.filterArticles} className="dropdown__button--filter">Filter</button>
+        <button onClick={this.refreshFeed} className="dropdown__button--refresh">Refresh</button>
+      </div>
+      )
+    }
+
+    if (this.state.dropdownShowing) {
+      let uniqueFeedList = this.uniqueFeeds(this.state.feed)
+      dropdownPlaceholderMap = uniqueFeedList.map((element, index) => {
+        return (
+          <li className="dropdown__li" key={index}>
+            <input className="dropdown__input" value={element} type="checkbox" />
+            {element}
+          </li>
+        )
+      })
+      dropdown = (
+        <div className='dropdown'>
+          <div className='dropdown__arrow--up'></div>
+          <form>
+            <ul>
+              {dropdownPlaceholderMap}
+            </ul>
+            {buttons}
+          </form>
+        </div>
+      )
+    }
+
     // Get Published Date
     let d = new Date();
     let dh1Day = d.getDate()
@@ -260,30 +315,24 @@ class App extends Component {
         <div className="appRoot">
           <div className="header">
             <div className="header--inner">
-              <h1>Today's Top Stories | {dh1Month}.{dh1Day}</h1>
+              <h1>Today's Top Stories <span>| {dh1Month}.{dh1Day} |</span></h1>
               <nav>
                 <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
                 <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>
-                <Menu
-                  dropdownShowing={this.state.dropdownShowing}
-                  filterOn={this.state.filterOn}
-                  articles={this.state.feed}
-                  filterArticles={this.filterArticles}
-                  refreshFeed={this.refreshFeed}
-                />
+                {dropdown}
                 <a id="header__login">Login</a>
               </nav>
             </div>
           </div>
-            <Card
-              articles={this.state.feed}
-              openPopOut={this.openPopOut}
-              closePopOut={this.closePopOut}
-              prevArticle={this.prevArticle}
-              nextArticle={this.nextArticle}
-              showPopOut={this.state.showPopOut}
-              articleViewing={this.state.articleViewing}
-            />
+          <Card
+            articles={this.state.feed}
+            openPopOut={this.openPopOut}
+            closePopOut={this.closePopOut}
+            prevArticle={this.prevArticle}
+            nextArticle={this.nextArticle}
+            showPopOut={this.state.showPopOut}
+            articleViewing={this.state.articleViewing}
+          />
         </div>
       );
     } else {
@@ -295,13 +344,7 @@ class App extends Component {
               <nav>
                 <a onClick={this.refreshFeed} className="header__refresh"><i className="fa fa-refresh" aria-hidden="true" ></i></a>
                 <a className="header__filter" id="dLabel" onClick={this.toggleDD}><i className="fa fa-filter" aria-hidden="true"></i></a>
-                <Menu
-                  dropdownShowing={this.state.dropdownShowing}
-                  filterOn={this.state.filterOn}
-                  articles={this.state.feed}
-                  filterArticles={this.filterArticles}
-                  refreshFeed={this.refreshFeed}
-                />
+                {dropdown}
                 <a id="header__login">Login</a>
               </nav>
             </div>
@@ -311,6 +354,9 @@ class App extends Component {
             className="loading__group"
             transitionName="flash"
             transitionAppear={true}
+            transitionAppearTimeout={5000}
+            transitionEnterTimeout={0}
+            transitionLeaveTimeout={0}
           >
             <Loading
               key={1}

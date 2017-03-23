@@ -36,14 +36,14 @@ class Card extends Component {
         return (
             <div key={index} className="card__div card__div--hover col-lg-12">
                 <figure className='card row'>
-                    <div className="card__logo col-lg-2" onClick={() => { this.props.openPopOut(index) }}>
+                    <div className="card__logo col-lg-2 col-sm-3 col-xs-0" onClick={() => { this.props.openPopOut(index) }}>
                         <img className="card__logo--img" src={element.logo} alt="Source Logo" />
                     </div>
-                    <figcaption className="col-lg-9" onClick={() => { this.props.openPopOut(index) }}>
+                    <figcaption className="col-lg-9 col-sm-9 col-xs-10" onClick={() => { this.props.openPopOut(index) }}>
                         <h3 className="card__h3">{element.title}</h3>
                         <p>Published on {cleanDate}</p>
                     </figcaption>
-                    <div className="col-lg-1 card__link--div">
+                    <div className="col-lg-1 col-sm-1 col-xs-1 card__link--div">
                         <a href={element.link} target='blank'><i className="card__link fa fa-external-link" aria-hidden="true"></i></a>
                     </div>
                 </figure>

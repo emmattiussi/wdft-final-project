@@ -4,6 +4,8 @@ const cheerio = require('cheerio');
 
 const app = express();
 
+// express.static
+// app.use(express.static(__dirname+'{build folder}'))
 
 // Run Server
 app.listen(8080, () => {
@@ -62,10 +64,7 @@ let RSSFeeds = [
     "https://www.theguardian.com/international/rss",
     "http://rss.cbc.ca/lineup/topstories.xml", 
     "http://www.rollingstone.com/politics/rss",
-    "https://www.wired.com/feed/",
-    "https://www.wired.com/category/design/feed/",
-    "https://www.wired.com/category/gear/feed/",
-    "https://www.wired.com/category/science/feed/"
+    "https://www.wired.com/feed/"
 ]
 
 let getRSSFeeds = function(cb){
